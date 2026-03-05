@@ -1,0 +1,194 @@
+        /* --- ESTILOS GERAIS & MODO ESCURO (PADRÃO) --- */
+        body {
+            background-image: url('CapaFundo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-blend-mode: overlay;
+            background-color: rgba(0, 0, 0, 0.6);
+            transition: background-color 0.5s ease;
+        }
+
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid #ffc107;
+            color: #e0e0e0;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        .navbar-custom {
+            background-color: #2b2300 !important;
+            border-bottom: 1px solid #ffc107;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .card-custom {
+            background-color: rgba(50, 50, 50, 0.6);
+            border: none;
+            color: #fff;
+            transition: transform 0.2s, background-color 0.3s, color 0.3s;
+        }
+
+        h3, h4, .h5 { color: #ffc107 !important; }
+
+        .theme-toggle-btn {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            color: #ffc107;
+            transition: background 0.3s;
+        }
+        .theme-toggle-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* --- MENUS EM CASCATA --- */
+        .cabecalho-separador {
+            background-color: rgba(255, 193, 7, 0.15);
+            border: 2px solid #ffc107;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .cabecalho-separador:hover {
+            background-color: rgba(255, 193, 7, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .cabecalho-classe {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .cabecalho-classe:hover { background-color: rgba(255, 193, 7, 0.1); }
+        
+        .icone-classe {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            background-color: #222;
+            border: 1px solid #ffc107;
+        }
+
+        /* --- PAINEL ESTILO JOGO (GAME UI) --- */
+        .game-ui-container {
+            background-color: #1a1a1c;
+            border: 2px solid #3d3d3d;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center; 
+            flex-wrap: wrap; 
+            font-family: Arial, sans-serif;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+        
+        .game-tier {
+            flex: 0 0 170px; 
+            border-right: 2px solid #2a2a2c;
+            display: flex;
+            flex-direction: column;
+        }
+        .game-tier:last-child { border-right: none; }
+        
+        .game-tier-header {
+            background-color: #0f0f10;
+            border-bottom: 2px solid #2a2a2c;
+            text-align: center;
+            padding: 6px 0;
+            font-weight: bold;
+            font-size: 13px;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .game-tier-body {
+            position: relative;
+            height: 220px;
+            background: linear-gradient(180deg, #1e1e1e, #141414);
+        }
+
+        .skill-node {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .hex-border {
+            width: 42px;
+            height: 48px;
+            background: #b89c56; 
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: filter 0.2s;
+        }
+        .skill-node:hover .hex-border { filter: brightness(1.3); }
+
+        .hex-inner {
+            width: 38px;
+            height: 44px;
+            background: #222;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- BARRAS DE NÍVEL --- */
+        .skill-bars { display: flex; gap: 2px; }
+        .bar-bg { width: 6px; height: 38px; background: #000; border: 1px solid #444; position: relative; }
+        .bar-fill { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; }
+        .bar-yellow { background: #d4c522; } 
+        .bar-green { background: #5cbf1a; }  
+        .bar-pink { background: #d62846; }   
+        .bar-passive { background: #b0b0b0; } 
+
+        /* --- POSICIONAMENTO NAS COLUNAS --- */
+        .pos-t1-1 { top: 80px; left: 5px; }  .pos-t1-2 { top: 20px; left: 50px; }  .pos-t1-3 { top: 140px; left: 40px; } .pos-t1-4 { top: 80px; left: 95px; }
+        .pos-t2-1 { top: 20px; left: 10px; } .pos-t2-2 { top: 110px; left: 30px; } .pos-t2-3 { top: 40px; left: 80px; }  .pos-t2-4 { top: 130px; left: 100px; }
+        .pos-t3-1 { top: 70px; left: 5px; }  .pos-t3-2 { top: 150px; left: 40px; } .pos-t3-3 { top: 20px; left: 75px; }  .pos-t3-4 { top: 90px; left: 105px; }
+        .pos-t4-1 { top: 90px; left: 10px; } .pos-t4-2 { top: 20px; left: 60px; }  .pos-t4-3 { top: 130px; left: 50px; } .pos-t4-4 { top: 70px; left: 100px; }
+
+        /* --- ESTILOS DO PAINEL DE DETALHES INFERIOR --- */
+        .panel-detalhe-item {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #555;
+            font-size: 13px;
+        }
+
+        /* --- NOVO: TOOLTIP GLOBAL --- */
+        #global-tooltip {
+            display: none; 
+            position: absolute; 
+            background: rgba(12, 12, 14, 0.95);
+            border: 1px solid #5a5a5a;
+            padding: 12px;
+            width: 260px;
+            z-index: 99999;
+            pointer-events: none; /* Garante que o mouse ignore a caixa */
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            border-radius: 4px;
+        }
+        .tt-title { color: #6ebae6; font-weight: bold; text-align: center; margin-bottom: 5px; font-size: 15px;}
+        .tt-desc { color: #cccccc; font-size: 13px; text-align: center; line-height: 1.4; margin-bottom: 0;}
+        
+        /* --- MODO CLARO (OVERRIDES) --- */
+        [data-bs-theme="light"] body { background-blend-mode: normal; background-color: transparent; }
+        [data-bs-theme="light"] .glass-panel { background: rgba(235, 225, 205, 0.95); border: 1px solid #8b6b4a; color: #3e2723; }
+        [data-bs-theme="light"] .navbar-custom { background-color: #d7ccc8 !important; border-bottom: 1px solid #8b6b4a; }
+        [data-bs-theme="light"] .card-custom { background-color: rgba(215, 204, 184, 0.8); color: #3e2723; }
+        [data-bs-theme="light"] h3, [data-bs-theme="light"] h4, [data-bs-theme="light"] .h5 { color: #4e342e !important; }
+        [data-bs-theme="light"] .border-warning { border-color: #8b6b4a !important; }
+        [data-bs-theme="light"] .theme-toggle-btn { color: #4e342e; }
+        [data-bs-theme="light"] .theme-toggle-btn:hover { background: rgba(139, 107, 74, 0.15); }
+        [data-bs-theme="light"] .cabecalho-separador { background-color: rgba(139, 107, 74, 0.15); border-color: #8b6b4a; }
+        [data-bs-theme="light"] .cabecalho-separador:hover { background-color: rgba(139, 107, 74, 0.25); }
+        [data-bs-theme="light"] .icone-classe { border-color: #8b6b4a; }
+        [data-bs-theme="light"] .panel-detalhe-item { background: rgba(139, 107, 74, 0.1); border-color: #8b6b4a; }

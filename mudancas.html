@@ -1,205 +1,415 @@
-<html>
-  <head>
-    <!-- Meta Tags -->
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-    crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <meta http-equiv="content-language" content="pt-br">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="author" content="Thiago Dias">
-    <meta name="creator" content="Thiago Dias">
     <meta property="og:site_name" content="O Pristoniano">
-    <title>O Pristoniano</title>
-    <meta name="description" content="Site sobre o MMO RPG Priston Tale Brasil">
-    <meta name="keywords" content="Priston Tale Brasil">
+    <title>O Pristoniano - Changelog</title>
+    <meta name="description" content="Histórico de atualizações do Priston Tale Brasil">
     <link rel="shortcut icon" href="/pristoniano.ico">
 
     <style>
-    
-      .body{
-        background-image: url(CapaFundo.jpg);
-        background-size: cover;
-      }
-    
-      </style>
-  
-  </head>
-  <body class="body">
-    <nav class="navbar fixed-top navbar-expand-lg bg-warning-subtle rounded" aria-label="Thirteenth navbar example">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        /* --- ESTILOS GERAIS & MODO ESCURO (PADRÃO) --- */
+        body {
+            background-image: url('CapaFundo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            /* Escurece a imagem de fundo por padrão */
+            background-blend-mode: overlay;
+            background-color: rgba(0, 0, 0, 0.6);
+            transition: background-color 0.5s ease;
+        }
 
-        <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-          <a class="navbar-brand col-lg-3 me-0" href="https://www.instagram.com/pristoniano" target="_blank"><img src="Sociais/iglogo.png" class="rounded mx-auto" alt="Instagram" height="30px" weight="30px"></a>
-          <ul class="navbar-nav col-lg-6 justify-content-lg-center">
-            <li class="nav-item">
-              <a class="navbar-brand" href="https://www.pristoniano.com.br/"><b>O Pristoniano</b></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sobre.html">Sobre</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contato.html">Contato</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/mudancas.html">Mudanças</a>
-            </li>
-          </ul>
-          <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-            <a href="https://www.youtube.com/channel/UCvl6-VoJETMvjuAG0NNvmWA" target="_blank"><button class="btn btn-danger">YouTube</button></a>
-          </div>
+        /* Painel Principal */
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.92); /* Preto Translúcido */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid #ffc107; /* Borda Dourada no Escuro */
+            color: #e0e0e0;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: #2b2300 !important; /* Dourado muito escuro */
+            border-bottom: 1px solid #ffc107; /* Borda Dourada no Escuro */
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* Cards Internos */
+        .card-custom {
+            background-color: rgba(50, 50, 50, 0.6);
+            border: none;
+            color: #fff;
+            transition: transform 0.2s, background-color 0.3s, color 0.3s;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Títulos */
+        h4, .h5 {
+            color: #ffc107 !important; /* Dourado */
+        }
+
+        /* Badges de Data */
+        .date-badge {
+            background-color: #ffc107;
+            color: #000;
+            font-weight: 700;
+            font-size: 0.75rem;
+            min-width: 85px;
+            display: inline-block;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Links de Referência */
+        .ref-link {
+            color: #ff8ec7; /* Rosa claro para contraste no escuro */
+            text-decoration: none;
+            font-size: 0.85em;
+            margin-left: 5px;
+        }
+        .ref-link:hover {
+            text-decoration: underline;
+            color: #ffc1e3;
+        }
+
+        /* Linha do Tempo */
+        .timeline-group { position: relative; }
+        .timeline-items {
+            border-left: 2px solid #ffc107; /* Linha Dourada no Escuro */
+            margin-left: 0.5rem;
+            padding-left: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        /* Botão de Toggle */
+        .theme-toggle-btn {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            color: #ffc107; /* Ícone amarelo no modo escuro */
+            transition: background 0.3s;
+        }
+        .theme-toggle-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+
+        /* --- MODO CLARO (OVERRIDES - BORDA PRETA) --- */
+        [data-bs-theme="light"] body {
+            background-blend-mode: normal;
+            background-color: transparent;
+        }
+
+        [data-bs-theme="light"] .glass-panel {
+            background: rgba(255, 243, 205, 0.95); /* Amarelo Claro */
+            border: 1px solid #000000; /* BORDA PRETA */
+            color: #212529;
+        }
+
+        [data-bs-theme="light"] .navbar-custom {
+            background-color: var(--bs-warning-bg-subtle) !important;
+            border-bottom: 1px solid #000000; /* BORDA PRETA */
+        }
+
+        [data-bs-theme="light"] .card-custom {
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #212529;
+        }
+
+        [data-bs-theme="light"] h4, 
+        [data-bs-theme="light"] .h5 {
+            color: #212529 !important; /* Títulos escuros */
+        }
+
+        /* Linha da timeline preta no modo claro para combinar */
+        [data-bs-theme="light"] .timeline-items {
+            border-left: 2px solid #000000; 
+        }
+
+        /* Linha abaixo dos títulos preta no modo claro */
+        [data-bs-theme="light"] .border-warning {
+            border-color: #000000 !important;
+        }
+        
+        [data-bs-theme="light"] .ref-link {
+            color: #d63384; 
+        }
+
+        [data-bs-theme="light"] .theme-toggle-btn {
+            color: #000;
+        }
+        [data-bs-theme="light"] .theme-toggle-btn:hover {
+            background: rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-custom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="https://www.instagram.com/pristoniano" target="_blank">
+                <img src="Sociais/iglogo.png" class="rounded" alt="Instagram" height="30" width="30">
+            </a>
+            
+            <div class="d-flex align-items-center gap-3 order-lg-3">
+                <button class="theme-toggle-btn" id="themeToggle" title="Alternar Modo Escuro/Claro">
+                    <i class="bi bi-sun-fill" id="themeIcon"></i>
+                </button>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse order-lg-2" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center fw-medium">
+                    <li class="nav-item"><a class="nav-link fw-bold" href="https://www.pristoniano.com.br/">O Pristoniano</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sobre.html">Sobre</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contato.html">Contato</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/mudancas.html">Mudanças</a></li>
+                </ul>
+                <div class="d-flex justify-content-center d-lg-none mt-3">
+                    <a href="https://www.youtube.com/channel/UCvl6-VoJETMvjuAG0NNvmWA" target="_blank" class="btn btn-danger btn-sm rounded-pill px-3">
+                        <i class="bi bi-youtube"></i> YouTube
+                    </a>
+                </div>
+            </div>
+            
+            <div class="d-none d-lg-flex order-lg-3 ms-3">
+                 <a href="https://www.youtube.com/channel/UCvl6-VoJETMvjuAG0NNvmWA" target="_blank" class="btn btn-danger btn-sm rounded-pill px-3">
+                    <i class="bi bi-youtube"></i> YouTube
+                </a>
+            </div>
         </div>
-      </div>
     </nav>
-    <br>
-    <br>
-    <br>
-    <div class="position-absolute start-50 translate-middle-x">
-      <div class="modal-content rounded-5 shadow p-3 bg-warning-subtle">
-        <h3>
-          <p class="text-center">Changelog do Priston Tale Brasil Organizado
-          </p>
-        </h3>
-      <br><a href="https://zenit.games/priston/noticias.php?p=107&f=0" target="_blank">Continuar</a>
-      <h4>
-        <p class="text-center">Aumento do limite de nível nos servidores clássicos
-        </p>
-      </h4>
-      <h6>
-        <p class="text-center">15/10/2016 - Limite de nível aumentado do 140 para o 150 (<a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1"
-          target="_blank">site</a>)</p>
-      </h6>
-      <h6>
-        <p class="text-center">22/02/2018 - Limite de nível aumentado do 150 para o 160 (<a href="https://forum.priston.com.br/forum/equipe-priston-tale/manutenções/6984-implementações-correções-e-otimizações-da-manutenção-do-dia-22-02"
-          target="_blank">fórum</a> / site)</p>
-      </h6>
-      <h6>
-        <p class="text-center">29/01/2019 - Limite de nível aumentado do 160 para o 170 (<a href="https://forum.priston.com.br/forum/equipe-priston-tale/manutenções/18209-implementações-correções-e-otimizações-da-manutenção-do-dia-29-01"
-          target="_blank">fórum</a> / site)</p>
-      </h6>
-      <h6>
-        <p class="text-center">24/07/2020 - Limite de nível aumentado do 170 para o 180 (<a href="https://forum.priston.com.br/forum/equipe-priston-tale/manutenções/34617-update-otimizações-e-correções-da-manutenção-do-dia-24-07"
-          target="_blank">fórum</a> / site)</p>
-      </h6>
 
-      <br>
+    <main class="container py-5 mt-5">
+        <div class="glass-panel p-4 p-md-5 rounded-5 shadow-lg mx-auto" style="max-width: 1000px;">
+            
+            <div class="text-center mb-5">
+                <h1 class="h2 fw-bold mb-2">Changelog do Priston Tale Brasil</h1>
+                <a href="https://zenit.games/priston/noticias.php?p=107&f=0" target="_blank" class="btn btn-outline-light btn-sm rounded-pill mt-2">
+                    Continuar Leitura Oficial <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+            </div>
 
-        <h4>
-          <p class="text-center">Mudanças nos Servidores
-          </p>
-        </h4>
-        <h6>
-          <p class="text-center">26/12/2016 - Encerramento do Servidor Galantia (<a href="https://zenit.games/priston/noticia.php?Encerramento_Galantia"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">Lançamento do Servidor Cronus (<a href="https://zenit.games/priston/noticia.php?Lancamento_Servidor_Cronus"
-            target="_blank">Anúncio em 29/12/2016</a> / <a href="https://zenit.games/priston/noticia.php?Lancamento_Comercial_Servidor_Cronus"
-            target="_blank">Comercial em 12/01/2017</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">Encerramento do Servidor Mardanos (<a href="https://zenit.games/priston/noticia.php?Encerramento_Mardanos"
-            target="_blank">Anúncio em 02/10/2017</a> / <a href="https://zenit.games/priston/noticia.php?Lancamento_Comercial_Servidor_Cronus"
-            target="_blank">Comercial em 12/01/2017</a>)</p>
-        </h6>
+            <div class="row g-4">
+                
+                <div class="col-lg-6 d-flex flex-column gap-4">
+                    
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <h4 class="h5 border-bottom border-warning pb-2 mb-3"><i class="bi bi-bar-chart-line-fill"></i> Limite de Nível</h4>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">
+                                    <span class="badge date-badge rounded-pill">15/10/2016</span>
+                                    <span>Nível 140 &rarr; 150</span>
+                                    <a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i> site</a>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="badge date-badge rounded-pill">22/02/2018</span>
+                                    <span>Nível 150 &rarr; 160</span>
+                                    <a href="https://forum.priston.com.br/forum/equipe-priston-tale/manutenções/6984-implementações-correções-e-otimizações-da-manutenção-do-dia-22-02" target="_blank" class="ref-link"><i class="bi bi-chat-left-text"></i> fórum</a>
+                                </li>
+                                <li class="mb-3">
+                                    <span class="badge date-badge rounded-pill">29/01/2019</span>
+                                    <span>Nível 160 &rarr; 170</span>
+                                    <a href="https://forum.priston.com.br/forum/equipe-priston-tale/manutenções/18209-implementações-correções-e-otimizações-da-manutenção-do-dia-29-01" target="_blank" class="ref-link"><i class="bi bi-chat-left-text"></i> fórum</a>
+                                </li>
+                                <li>
+                                    <span class="badge date-badge rounded-pill">24/07/2020</span>
+                                    <span>Nível 170 &rarr; 180</span>
+                                    <a href="https://forum.priston.com.br/forum/equipe-priston-tale/manutenções/34617-update-otimizações-e-correções-da-manutenção-do-dia-24-07" target="_blank" class="ref-link"><i class="bi bi-chat-left-text"></i> fórum</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-        <br>
-  
-          <h4>
-            <p class="text-center">Novos Mapas
-            </p>
-          </h4>
-          <h6>
-            <p class="text-center">Arma Antiga (<a href="https://zenit.games/priston/noticia.php?Preview_Update_Arma_Antiga"
-              target="_blank">Anúncio em 19/01/2017</a> / <a href="https://zenit.games/priston/noticia.php?Update_Versao_4.21.3"
-              target="_blank">Lançamento em 30/01/2017</a>)</p>
-          </h6>
+                    <div class="card card-custom flex-fill">
+                        <div class="card-body">
+                            <h4 class="h5 border-bottom border-warning pb-2 mb-3"><i class="bi bi-map-fill"></i> Novos Mapas</h4>
+                             <div class="timeline-group">
+                                <h6 class="fw-bold mb-1">Arma Antiga</h6>
+                                <div class="timeline-items">
+                                    <div class="mb-2">
+                                        <span class="badge date-badge rounded-pill me-1">19/01/2017</span>
+                                        Anúncio
+                                        <a href="https://zenit.games/priston/noticia.php?Preview_Update_Arma_Antiga" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i> site</a>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="badge date-badge rounded-pill me-1">30/01/2017</span>
+                                        Lançamento
+                                        <a href="https://zenit.games/priston/noticia.php?Update_Versao_4.21.3" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i> site</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        <br>
-  
-          <h4>
-            <p class="text-center">Novidades
-            </p>
-          </h4>
-          <h6>
-            <p class="text-center">15/04/2016 - Implementação do Sistema de Soquetes (<a href="https://zenit.games/priston/noticia.php?Update_Abril"
-              target="_blank">site</a>)</p>
-          </h6>
-        <h6>
-          <p class="text-center">15/10/2016 - Novas Poções Capilares (<a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">15/10/2016 - Novo Item Shop "Torta de Abóbora (3H)" (<a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">15/10/2016 - Nova Ferramenta Anti-Hacking (troca da X-Trap pela ZForce) (<a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">21/06/2017 - Título de Personagem de Maior Nível do Servidor (<a href="https://zenit.games/priston/noticia.php?Update_4214"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">21/06/2017 - Novas quests (110, 118 e 123) (<a href="https://zenit.games/priston/noticia.php?Update_4214"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">05/10/2017 - Priston Shop Ingame (<a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">05/10/2017 - Novo Sistema de Seleção de Personagem sem se desconectar (<a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">05/10/2017 - Nova Resolução da Tela (1920x1080) (<a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">05/10/2017 - Espansão do Agins até o +25, novos sheltons e catalizadores (<a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">05/10/2017 - Implementação das forces Mágicas (<a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">15/10/2016 - Novo Item Shop "Poção Cabeça de Carneiro" (<a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1"
-            target="_blank">site</a>)</p>
-        </h6>
-        <h6>
-          <p class="text-center">15/10/2016 - Novos Trajes Românticos (<a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1"
-            target="_blank">site</a>)</p>
-        </h6>
+                </div>
 
-        <br>
+                <div class="col-lg-6">
+                    <div class="card card-custom h-100">
+                        <div class="card-body">
+                            <h4 class="h5 border-bottom border-warning pb-2 mb-3"><i class="bi bi-server"></i> Mudanças nos Servidores</h4>
+                            
+                            <div class="timeline-group mb-4">
+                                <h6 class="fw-bold mb-1">Servidor Galantia</h6>
+                                <div class="timeline-items">
+                                    <div class="mb-1">
+                                        <span class="badge date-badge rounded-pill me-1">26/12/2016</span>
+                                        Encerramento
+                                        <a href="https://zenit.games/priston/noticia.php?Encerramento_Galantia" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i> site</a>
+                                    </div>
+                                </div>
+                            </div>
 
-          <h4>
-            <p class="text-center">Mudanças no Jogo
-            </p>
-          </h4>
-          <h6>
-            <p class="text-center">03/06/2016 - Inclusão da Instrutora Amanda em Pillai (<a href="https://zenit.games/priston/noticia.php?PNJs_Drop_Chamados"
-              target="_blank">site</a>)</p>
-          </h6>
-          <h6>
-            <p class="text-center">Revitalização do SoD (<a href="https://zenit.games/priston/noticia.php?Revitalizacao_SoD"
-              target="_blank">Anúncio em 28/04/2017</a> / <a href="https://zenit.games/priston/noticia.php?SoD_Oficial"
-              target="_blank">Lançamento em 18/05/2017</a>)</p>
-          </h6>
-      
-      </div>
-    </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+                            <div class="timeline-group mb-4">
+                                <h6 class="fw-bold mb-1">Servidor Cronus</h6>
+                                <div class="timeline-items">
+                                    <div class="mb-2">
+                                        <span class="badge date-badge rounded-pill me-1">29/12/2016</span>
+                                        Anúncio
+                                        <a href="https://zenit.games/priston/noticia.php?Lancamento_Servidor_Cronus" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i> site</a>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="badge date-badge rounded-pill me-1">12/01/2017</span>
+                                        Lançamento Comercial
+                                        <a href="https://zenit.games/priston/noticia.php?Lancamento_Comercial_Servidor_Cronus" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i> site</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-group">
+                                <h6 class="fw-bold mb-1">Servidor Mardanos</h6>
+                                <div class="timeline-items">
+                                    <div class="mb-1">
+                                        <span class="badge date-badge rounded-pill me-1">02/10/2017</span>
+                                        Encerramento
+                                        <a href="https://zenit.games/priston/noticia.php?Encerramento_Mardanos" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i> site</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <h4 class="h5 border-bottom border-warning pb-2 mb-3"><i class="bi bi-stars"></i> Novidades e Mudanças no Jogo</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-group list-group-flush bg-transparent small">
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>15/04/16:</b> Sistema de Soquetes
+                                            <a href="https://zenit.games/priston/noticia.php?Update_Abril" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i></a>
+                                        </li>
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>03/06/16:</b> Instrutora Amanda em Pillai
+                                            <a href="https://zenit.games/priston/noticia.php?PNJs_Drop_Chamados" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i></a>
+                                        </li>
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>15/10/16:</b> Anti-Hack ZForce, Poções, Trajes
+                                            <a href="https://zenit.games/priston/noticia.php?Preview_Update_Build_4.21.1" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i></a>
+                                        </li>
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>Bellatra (SoD):</b> 
+                                            <a href="https://zenit.games/priston/noticia.php?Revitalizacao_SoD" target="_blank" class="ref-link">Anúncio</a> / 
+                                            <a href="https://zenit.games/priston/noticia.php?SoD_Oficial" target="_blank" class="ref-link">Oficial</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-group list-group-flush bg-transparent small">
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>21/06/17:</b> Quests (110+) e Título Top Level
+                                            <a href="https://zenit.games/priston/noticia.php?Update_4214" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i></a>
+                                        </li>
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>05/10/17:</b> Priston Shop Ingame
+                                            <a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i></a>
+                                        </li>
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>05/10/17:</b> Resolução Full HD e Seleção Char
+                                            <a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i></a>
+                                        </li>
+                                        <li class="list-group-item bg-transparent py-1 ps-0">
+                                            <b>05/10/17:</b> Aging +25, Sheltons e Forces Mágicas
+                                            <a href="https://zenit.games/priston/noticia.php?Update_4.21.5_Novas_Funcionalidades" target="_blank" class="ref-link"><i class="bi bi-link-45deg"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-4">
+                <small class="text-muted">&copy; O Pristoniano - Criado por Thiago Dias</small>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        // Recupera a preferência salva. Se não houver, mantém 'dark' como padrão
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.setAttribute('data-bs-theme', savedTheme);
+            updateIcon(savedTheme);
+        } else {
+            // Garante que o ícone inicial corresponda ao padrão (Dark)
+            updateIcon('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.classList.remove('bi-moon-stars-fill');
+                themeIcon.classList.add('bi-sun-fill');
+                themeToggle.style.color = '#ffc107'; // Ícone Sol Amarelo
+            } else {
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.add('bi-moon-stars-fill');
+                themeToggle.style.color = '#000'; // Ícone Lua Preta
+            }
+        }
+    </script>
+</body>
 </html>

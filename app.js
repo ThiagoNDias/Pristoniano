@@ -1,38 +1,50 @@
+// app.js
+
 // 1. Função para carregar Navbar e Footer
 function carregarComponentes() {
-    // Adicionamos a "/" para garantir que ele busque na raiz do domínio
-    fetch('/navbar.html') 
+    // Usamos caminhos sem a barra inicial para o GitHub Pages entender que é na mesma pasta
+    fetch('navbar.html')
         .then(response => {
             if (!response.ok) throw new Error("Erro ao carregar navbar");
             return response.text();
         })
         .then(data => {
             document.getElementById('navbar-placeholder').innerHTML = data;
-            marcarLinkAtivo();
-            updateIcon(localStorage.getItem('theme') || 'dark');
+            marcarLinkAtivo(); // Destaca a página atual
+            
+            // Após carregar a navbar, garante que o ícone do tema esteja correto
+            const temaAtual = localStorage.getItem('theme') || 'dark';
+            updateIcon(temaAtual);
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error("Falha na Navbar:", err));
 
-    fetch('/footer.html')
+    fetch('footer.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('footer-placeholder').innerHTML = data;
-        });
+        })
+        .catch(err => console.error("Falha no Footer:", err));
 }
 
 // 2. Função para marcar qual página está aberta no menu
 function marcarLinkAtivo() {
-    const path = window.location.pathname.split("/").pop() || "index.html";
+    // Pega o nome do arquivo atual (ex: habilidades.html)
+    let path = window.location.pathname.split("/").pop();
+    
+    // Se estiver na raiz (vazio), assume index.html
+    if (path === "") path = "index.html";
+
     const links = document.querySelectorAll('.nav-link');
     links.forEach(link => {
-        if (link.getAttribute('href') === path) {
+        // Verifica se o href do link contém o nome da página atual
+        if (link.getAttribute('href') === path || link.getAttribute('href').includes(path)) {
             link.classList.add('active');
             link.classList.add('fw-bold');
         }
     });
 }
 
-// 3. Funções de Tema (Globais para serem vistas pelo navbar.html)
+// 3. Funções de Tema (Globais)
 window.alternarTema = function() {
     const htmlElement = document.documentElement;
     const currentTheme = htmlElement.getAttribute('data-bs-theme');
@@ -46,7 +58,9 @@ window.alternarTema = function() {
 function updateIcon(theme) {
     const themeIcon = document.getElementById('themeIcon');
     const themeToggle = document.getElementById('themeToggle');
-    if (!themeIcon) return;
+    
+    // Se o componente ainda não foi carregado pelo fetch, sai da função
+    if (!themeIcon || !themeToggle) return;
 
     if (theme === 'dark') {
         themeIcon.className = 'bi bi-sun-fill';
@@ -57,9 +71,11 @@ function updateIcon(theme) {
     }
 }
 
-// Inicia tudo ao abrir a página
+// 4. Inicia tudo ao abrir a página
 document.addEventListener('DOMContentLoaded', () => {
-    const temaInicial = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-bs-theme', temaInitial);
+    // Corrigido: definimos a variável e aplicamos o tema imediatamente
+    const temaParaAplicar = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-bs-theme', temaParaAplicar);
+    
     carregarComponentes();
 });

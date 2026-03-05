@@ -1,139 +1,222 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <title>O Pristoniano</title>
-    <meta
-      name="description"
-      content="Site sobre o MMO RPG Priston Tale Brasil"
-    />
-    <meta name="keywords" content="Priston Tale Brasil" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <meta http-equiv="content-language" content="pt-br">
     <meta name="author" content="Thiago Dias" />
+    <meta property="og:site_name" content="O Pristoniano">
+    <title>O Pristoniano</title>
+    <meta name="description" content="Site sobre o MMO RPG Priston Tale Brasil" />
+    <meta name="keywords" content="Priston Tale Brasil" />
     <link rel="shortcut icon" href="/pristoniano.ico" />
 
     <style>
-      body {
-        background-image: url(CapaFundo.jpg);
-        background-size: cover;
-        background-position: center;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
+        /* --- ESTILOS GERAIS & MODO ESCURO (PADRÃO) --- */
+        body {
+            background-image: url('CapaFundo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-blend-mode: overlay;
+            background-color: rgba(0, 0, 0, 0.6);
+            transition: background-color 0.5s ease;
+            display: flex;
+            flex-direction: column;
+        }
 
-      main {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 70px;
-      }
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 100px; /* Espaço para o navbar fixo */
+            padding-bottom: 40px;
+        }
 
-      .video-responsive {
-        width: 360px;
-        height: 640px;
-      }
+        /* --- PAINEL DE VIDRO (GLASSMORPHISM) --- */
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid #ffc107;
+            color: #e0e0e0;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
 
-      .video-container {
-        width: 360px;
-        height: 640px;
-        padding: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+        /* --- NAVBAR --- */
+        .navbar-custom {
+            background-color: #2b2300 !important;
+            border-bottom: 1px solid #ffc107;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
 
-      footer {
-        font-size: small;
-      }
+        /* --- BOTÃO DE TEMA --- */
+        .theme-toggle-btn {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            color: #ffc107;
+            transition: background 0.3s;
+        }
+        .theme-toggle-btn:hover { background: rgba(255,255,255,0.1); }
 
-      .social-icons a {
-        color: #000;
-        margin: 0 8px;
-        font-size: 1.5rem;
-        transition: transform 0.3s, background-color 0.3s, color 0.3s;
-        padding: 6px;
-        border-radius: 50%;
-        display: inline-block;
-      }
+        /* --- VÍDEO SHORTS --- */
+        .video-container {
+            width: 360px;
+            height: 640px;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-      .social-icons a:hover {
-        transform: scale(1.2);
-        color: #bc8e04;
-        background-color: #000;
-      }
+        /* --- RODAPÉ & ÍCONES SOCIAIS --- */
+        footer {
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            transition: color 0.3s;
+        }
+
+        .social-icons a {
+            color: #e0e0e0;
+            margin: 0 8px;
+            font-size: 1.8rem;
+            transition: transform 0.3s, color 0.3s;
+            display: inline-block;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.2);
+            color: #ffc107; /* Dourado no hover do modo escuro */
+        }
+
+        /* --- MODO CLARO (OVERRIDES) --- */
+        [data-bs-theme="light"] body { background-blend-mode: normal; background-color: transparent; }
+        [data-bs-theme="light"] .glass-panel { background: rgba(235, 225, 205, 0.95); border: 1px solid #8b6b4a; color: #3e2723; }
+        [data-bs-theme="light"] .navbar-custom { background-color: #d7ccc8 !important; border-bottom: 1px solid #8b6b4a; }
+        [data-bs-theme="light"] .theme-toggle-btn { color: #4e342e; }
+        [data-bs-theme="light"] .theme-toggle-btn:hover { background: rgba(139, 107, 74, 0.15); }
+        [data-bs-theme="light"] footer { color: #4e342e; font-weight: bold; }
+        [data-bs-theme="light"] .social-icons a { color: #4e342e; }
+        [data-bs-theme="light"] .social-icons a:hover { color: #8b6b4a; } /* Marrom no hover do modo claro */
+
     </style>
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg bg-warning-subtle rounded">
-      <div class="container-fluid">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsExample11"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+</head>
+<body>
+    
+    <nav class="navbar fixed-top navbar-expand-lg navbar-custom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="https://www.instagram.com/pristoniano" target="_blank">
+                <img src="Sociais/iglogo.png" class="rounded" alt="Instagram" height="30" width="30">
+            </a>
+            
+            <div class="d-flex align-items-center gap-3 order-lg-3">
+                <button class="theme-toggle-btn" id="themeToggle" title="Alternar Modo Escuro/Claro">
+                    <i class="bi bi-sun-fill" id="themeIcon"></i>
+                </button>
 
-        <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-          <ul class="navbar-nav col-lg-12 justify-content-lg-center">
-            <li class="nav-item">
-              <a class="navbar-brand" href="#"><b>O Pristoniano</b></a>
-            </li>
-            <li class="nav-item"><a class="nav-link">Em Breve</a></li>
-            <li class="nav-item"><a class="nav-link">Em Breve</a></li>
-            <li class="nav-item"><a class="nav-link">Em Breve</a></li>
-          </ul>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse order-lg-2" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center fw-medium">
+                    <li class="nav-item"><a class="nav-link fw-bold active" href="https://www.pristoniano.com.br/">O Pristoniano</a></li>
+                    <li class="nav-item"><a class="nav-link">Em breve</a></li>
+                    <li class="nav-item"><a class="nav-link">Em breve</a></li>
+                    <li class="nav-item"><a class="nav-link">Em breve</a></li>
+                    <li class="nav-item"><a class="nav-link">Em breve</a></li>
+                </ul>
+                <div class="d-flex justify-content-center d-lg-none mt-3">
+                    <a href="https://www.youtube.com/channel/UCvl6-VoJETMvjuAG0NNvmWA" target="_blank" class="btn btn-danger btn-sm rounded-pill px-3">
+                        <i class="bi bi-youtube"></i> YouTube
+                    </a>
+                </div>
+            </div>
+            
+            <div class="d-none d-lg-flex order-lg-3 ms-3">
+                 <a href="https://www.youtube.com/channel/UCvl6-VoJETMvjuAG0NNvmWA" target="_blank" class="btn btn-danger btn-sm rounded-pill px-3">
+                    <i class="bi bi-youtube"></i> YouTube
+                </a>
+            </div>
         </div>
-      </div>
     </nav>
 
-    <!-- Main content -->
     <main>
-      <div class="video-container bg-warning-subtle rounded-4 shadow">
-        <iframe
-          class="w-100 h-100"
-          src="https://www.youtube.com/embed/uX2cAeuaL0s?si=2MsfSQV0xCCTnFvV"
-          title="Climbing em Coração de Perum"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        >
-        </iframe>
-      </div>
+        <div class="video-container glass-panel rounded-4 shadow-lg mx-3">
+            <iframe
+                class="w-100 h-100 rounded"
+                src="https://www.youtube.com/embed/uX2cAeuaL0s?si=2MsfSQV0xCCTnFvV"
+                title="Climbing em Coração de Perum"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+            </iframe>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="text-black text-center bg-warning-subtle py-4">
-      <div class="container">
-        <p class="mb-1">
-          2024-2025. O Pristoniano. Priston Tale<sup>&copy;</sup> Brasil. Todos
-          os direitos reservados.
-        </p>
-        <div class="social-icons">
-          <a href="https://www.instagram.com/pristoniano" target="_blank"
-            ><i class="fab fa-instagram"></i
-          ></a>
-          <a href="https://www.youtube.com/@Pristoniano" target="_blank"
-            ><i class="fab fa-youtube"></i
-          ></a>
+    <footer class="text-center py-4">
+        <div class="container">
+            <p class="mb-2">
+                2024-2025. O Pristoniano. Priston Tale<sup>&copy;</sup> Brasil. Todos os direitos reservados.
+            </p>
+            <div class="social-icons mt-3">
+                <a href="https://www.instagram.com/pristoniano" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@Pristoniano" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
         </div>
-      </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <script>
+        /* =========================================
+           TEMA (CLARO/ESCURO)
+           ========================================= */
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        // Recupera o tema salvo no navegador para manter a consistência entre as páginas
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.setAttribute('data-bs-theme', savedTheme);
+            updateIcon(savedTheme);
+        } else {
+            updateIcon('dark'); // Padrão
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme); // Salva para as outras páginas lerem
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.classList.remove('bi-moon-stars-fill');
+                themeIcon.classList.add('bi-sun-fill');
+                themeToggle.style.color = '#ffc107'; 
+            } else {
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.add('bi-moon-stars-fill');
+                themeToggle.style.color = '#4e342e'; 
+            }
+        }
+    </script>
+</body>
 </html>

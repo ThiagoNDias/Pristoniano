@@ -1,15 +1,19 @@
 // 1. Função para carregar Navbar e Footer
 function carregarComponentes() {
-    fetch('navbar.html')
-        .then(response => response.text())
+    // Adicionamos a "/" para garantir que ele busque na raiz do domínio
+    fetch('/navbar.html') 
+        .then(response => {
+            if (!response.ok) throw new Error("Erro ao carregar navbar");
+            return response.text();
+        })
         .then(data => {
             document.getElementById('navbar-placeholder').innerHTML = data;
-            marcarLinkAtivo(); // Chama a função de acender o link
-            const temaSalvo = localStorage.getItem('theme') || 'dark';
-            updateIcon(temaSalvo); // Garante que o ícone sol/lua esteja certo
-        });
+            marcarLinkAtivo();
+            updateIcon(localStorage.getItem('theme') || 'dark');
+        })
+        .catch(err => console.error(err));
 
-    fetch('footer.html')
+    fetch('/footer.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('footer-placeholder').innerHTML = data;

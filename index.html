@@ -82,9 +82,12 @@
 
         /* --- RODAPÉ & ÍCONES SOCIAIS --- */
         footer {
+            background-color: #2b2300; /* Fundo combinando com o Navbar */
+            border-top: 1px solid #ffc107; /* Borda superior dourada */
             font-size: 0.9rem;
             color: #e0e0e0;
-            transition: color 0.3s;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+            margin-top: auto; /* Empurra pro final da tela */
         }
 
         .social-icons a {
@@ -97,7 +100,7 @@
 
         .social-icons a:hover {
             transform: scale(1.2);
-            color: #ffc107; /* Dourado no hover do modo escuro */
+            color: #ffc107; 
         }
 
         /* --- MODO CLARO (OVERRIDES) --- */
@@ -106,9 +109,16 @@
         [data-bs-theme="light"] .navbar-custom { background-color: #d7ccc8 !important; border-bottom: 1px solid #8b6b4a; }
         [data-bs-theme="light"] .theme-toggle-btn { color: #4e342e; }
         [data-bs-theme="light"] .theme-toggle-btn:hover { background: rgba(139, 107, 74, 0.15); }
-        [data-bs-theme="light"] footer { color: #4e342e; font-weight: bold; }
+        
+        /* Rodapé no modo claro */
+        [data-bs-theme="light"] footer { 
+            background-color: #d7ccc8; 
+            border-top: 1px solid #8b6b4a; 
+            color: #4e342e; 
+            font-weight: bold; 
+        }
         [data-bs-theme="light"] .social-icons a { color: #4e342e; }
-        [data-bs-theme="light"] .social-icons a:hover { color: #8b6b4a; } /* Marrom no hover do modo claro */
+        [data-bs-theme="light"] .social-icons a:hover { color: #8b6b4a; } 
 
     </style>
 </head>
@@ -136,7 +146,12 @@
                     <li class="nav-item"><a class="nav-link">Em breve</a></li>
                     <li class="nav-item"><a class="nav-link">Em breve</a></li>
                     <li class="nav-item"><a class="nav-link">Em breve</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://zenit.games/priston" target="_blank">Site oficial</a></li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="https://zenit.games/priston/" target="_blank">
+                            Site Oficial <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.8rem;"></i>
+                        </a>
+                    </li>
                 </ul>
                 <div class="d-flex justify-content-center d-lg-none mt-3">
                     <a href="https://www.youtube.com/channel/UCvl6-VoJETMvjuAG0NNvmWA" target="_blank" class="btn btn-danger btn-sm rounded-pill px-3">
@@ -189,20 +204,19 @@
         const themeIcon = document.getElementById('themeIcon');
         const htmlElement = document.documentElement;
 
-        // Recupera o tema salvo no navegador para manter a consistência entre as páginas
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             htmlElement.setAttribute('data-bs-theme', savedTheme);
             updateIcon(savedTheme);
         } else {
-            updateIcon('dark'); // Padrão
+            updateIcon('dark'); 
         }
 
         themeToggle.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-bs-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             htmlElement.setAttribute('data-bs-theme', newTheme);
-            localStorage.setItem('theme', newTheme); // Salva para as outras páginas lerem
+            localStorage.setItem('theme', newTheme);
             updateIcon(newTheme);
         });
 

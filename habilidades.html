@@ -102,7 +102,7 @@
         }
         
         .game-tier {
-            flex: 0 0 170px; 
+            flex: 0 0 210px; 
             border-right: 2px solid #2a2a2c;
             display: flex;
             flex-direction: column;
@@ -124,7 +124,7 @@
         
         .game-tier-body {
             position: relative;
-            height: 205px;
+            height: 150px;
             background: linear-gradient(180deg, #1e1e1e, #141414);
         }
 
@@ -175,10 +175,10 @@
         .bar-passive { background: #b0b0b0; } 
 
         /* --- POSICIONAMENTO NAS COLUNAS --- */
-        .pos-t1-1 { top: 80px; left: 5px; }  .pos-t1-2 { top: 20px; left: 50px; }  .pos-t1-3 { top: 140px; left: 40px; } .pos-t1-4 { top: 80px; left: 95px; }
-        .pos-t2-1 { top: 20px; left: 10px; } .pos-t2-2 { top: 110px; left: 30px; } .pos-t2-3 { top: 40px; left: 80px; }  .pos-t2-4 { top: 130px; left: 100px; }
-        .pos-t3-1 { top: 70px; left: 5px; }  .pos-t3-2 { top: 150px; left: 40px; } .pos-t3-3 { top: 20px; left: 75px; }  .pos-t3-4 { top: 90px; left: 105px; }
-        .pos-t4-1 { top: 90px; left: 10px; } .pos-t4-2 { top: 20px; left: 60px; }  .pos-t4-3 { top: 130px; left: 50px; } .pos-t4-4 { top: 70px; left: 100px; }
+        .pos-t1-1 { top: 55px; left: 5px; }  .pos-t1-2 { top: 100px; left: 48px; }  .pos-t1-3 { top: 20px; left: 60px; } .pos-t1-4 { top: 30px; left: 125px; }
+        .pos-t2-1 { top: 20px; left: 5px; } .pos-t2-2 { top: 68px; left: 25px; } .pos-t2-3 { top: 20px; left: 70px; }  .pos-t2-4 { top: 20px; left: 145px; }
+        .pos-t3-1 { top: 30px; left: 5px; }  .pos-t3-2 { top: 15px; left: 70px; } .pos-t3-3 { top: 65px; left: 115px; }  .pos-t3-4 { top: 15px; left: 135px; }
+        .pos-t4-1 { top: 35px; left: 5px; } .pos-t4-2 { top: 68px; left: 65px; }  .pos-t4-3 { top: 18px; left: 82px; } .pos-t4-4 { top: 68px; left: 132px; }
 
         /* --- ESTILOS DO PAINEL DE DETALHES INFERIOR --- */
         .panel-detalhe-item {
@@ -261,7 +261,7 @@
     </nav>
 
     <main class="container py-5 mt-5">
-        <div class="glass-panel p-4 p-md-5 rounded-5 shadow-lg mx-auto" style="max-width: 1000px;">
+        <div class="glass-panel p-4 p-md-5 rounded-5 shadow-lg mx-auto" style="max-width: 1200px;">
             
             <div class="text-center mb-5">
                 <h1 class="h2 fw-bold mb-2">Guia de Habilidades</h1>
@@ -801,7 +801,7 @@
                             <div class="card card-custom overflow-hidden">
                                 <div class="card-body p-0">
                                     <div class="cabecalho-classe p-3 d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseMago">
-                                        <img src="URL_ICONE.jpg" class="icone-classe rounded me-3" alt="Mago">
+                                        <img src="img.png" class="icone-classe rounded me-3" alt="Mago">
                                         <h4 class="h5 mb-0 fw-bold">Mago</h4>
                                         <i class="bi bi-chevron-down ms-auto h5 mb-0"></i>
                                     </div>
@@ -814,203 +814,203 @@
                                                 <div class="game-tier">
                                                     <div class="game-tier-header"><span>I</span> Mago</div>
                                                     <div class="game-tier-body">
-                                                        <div class="skill-node pos-t1-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t1-1', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t1-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t1-1', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM10 Agony.bmp" alt="Agonia"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Escudo Corpo a Corpo</div>
-                                                                <div class="tt-desc">Habilidade fundamental para o início. Deve ser mantida no nível 4 para economia de pontos.</div>
+                                                                <div class="tt-title">Agonia</div>
+                                                                <div class="tt-desc">Troca HP por MP. Nível 10 apenas depois das outras habilidades.</div>
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="skill-node pos-t1-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t1-2', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t1-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t1-2', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM12 FireBolt.bmp" alt="Fagulha"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Arremesso Certeiro</div>
-                                                                <div class="tt-desc">Ataca monstros a distância. Nível recomendado: 1.</div>
+                                                                <div class="tt-title">Fagulha</div>
+                                                                <div class="tt-desc">Não é necessário upar, apenas no começo se quiser. Nível 1</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t1-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t1-3', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
-                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-passive"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
+                                                        <div class="skill-node pos-t1-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t1-3', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM14 Zenith.bmp" alt="Zenith"></div></div>
+                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Vitalidade</div>
-                                                                <div class="tt-desc">Passiva essencial. Priorize maximizar para o nível 10 o quanto antes.</div>
+                                                                <div class="tt-title">Zenith</div>
+                                                                <div class="tt-desc">Hoje não funciona. Nível 10 apenas depois das outras habilidades.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t1-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t1-4', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t1-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t1-4', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM17 FireBall.bmp" alt="Bola de Fogo"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Balanço Violento</div>
-                                                                <div class="tt-desc">Não é recomendada para builds avançadas. Mantenha no nível 1.</div>
+                                                                <div class="tt-title">Bola de Fogo</div>
+                                                                <div class="tt-desc">Não é necessário upar, apenas no começo se quiser. Nível 1</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="game-tier">
-                                                    <div class="game-tier-header"><span>II</span> Valquíria</div>
+                                                    <div class="game-tier-header"><span>II</span> Feiticeiro</div>
                                                     <div class="game-tier-body">
-                                                        <div class="skill-node pos-t2-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t2-1', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
-                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
-                                                            <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Lança Giratória</div>
-                                                                <div class="tt-desc">Causa dano em área, ótima para mobar. Recomendado nível 10.</div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="skill-node pos-t2-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t2-2', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
-                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
-                                                            <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Grito de Batalha</div>
-                                                                <div class="tt-desc">Aumenta o dano de todo o grupo. Essencial nível 10.</div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="skill-node pos-t2-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t2-3', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t2-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t2-1', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM20 M_Mastery.bmp" alt="Mestre da Mente"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-passive"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Maestria em Lança</div>
-                                                                <div class="tt-desc">Passiva obrigatória. Mantenha sempre no máximo.</div>
+                                                                <div class="tt-title">Mestre da Mente</div>
+                                                                <div class="tt-desc">Habilidade passiva essencial. Aumenta sua mana. Nível 10 o quanto antes.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t2-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t2-4', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
-                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-passive"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
+                                                        <div class="skill-node pos-t2-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t2-2', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM23 Watornado.bmp" alt="Watornado"></div></div>
+                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Evasão</div>
-                                                                <div class="tt-desc">Aumenta a taxa de bloqueio. Recomendado nível 1.</div>
+                                                                <div class="tt-title">Watornado</div>
+                                                                <div class="tt-desc">Não é necessário upar, apenas no começo se quiser. Nível 1</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="skill-node pos-t2-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t2-3', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM26 E_Weapon.bmp" alt="Encanto"></div></div>
+                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
+                                                            <div class="tooltip-data" style="display: none;">
+                                                                <div class="tt-title">Encanto</div>
+                                                                <div class="tt-desc">Hoje não funciona. Nível 10 apenas depois das outras habilidades.</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="skill-node pos-t2-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t2-4', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM30 D_Ray.bmp" alt="Raio da Morte"></div></div>
+                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
+                                                            <div class="tooltip-data" style="display: none;">
+                                                                <div class="tt-title">Raio da Morte</div>
+                                                                <div class="tt-desc">Habilidade 1x1 principal no começo, além de ser um bom combo no PvP. Nível 10 com prioridade.</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="game-tier">
-                                                    <div class="game-tier-header"><span>III</span> Brynhild</div>
+                                                    <div class="game-tier-header"><span>III</span> Feiticeiro Real</div>
                                                     <div class="game-tier-body">
-                                                        <div class="skill-node pos-t3-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t3-1', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t3-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t3-1', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM40 E_Shield.bmp" alt="Escudo Energético"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Lança Múltipla</div>
-                                                                <div class="tt-desc">Arremessa várias lanças. Boa para Dano em Área (AoE). Nível 10.</div>
+                                                                <div class="tt-title">Escudo Energético</div>
+                                                                <div class="tt-desc">Habilidade essencial. A primeira a ser colocada no nível 10.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t3-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(event, 'ata-t3-2', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t3-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(event, 'mag-t3-2', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM43 Diastrophism.bmp" alt="Terremoto"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Trovão</div>
-                                                                <div class="tt-desc">Dano forte contra um alvo. Muito usado contra Bosses. Nível 10.</div>
+                                                                <div class="tt-title">Terremoto</div>
+                                                                <div class="tt-desc">Habilidade em desuso. Não é necessário upar, apenas no começo se quiser. Nível 1</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t3-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t3-3', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
-                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-passive"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
+                                                        <div class="skill-node pos-t3-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t3-3', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM46 S_Elemental.bmp" alt="Espírito Elemental"></div></div>
+                                                            <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Olho de Falcão</div>
-                                                                <div class="tt-desc">Aumenta taxa de ataque passivamente. Deixe no nível máximo.</div>
+                                                                <div class="tt-title">Espírito Elemental</div>
+                                                                <div class="tt-desc">Buff essencial. A segunda a ser colocada no nível 10.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t3-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(event, 'ata-t3-4', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t3-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(event, 'mag-t3-4', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM50 D_Sword.bmp" alt="Espada Dançante"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-green"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Tempestade de Fogo</div>
-                                                                <div class="tt-desc">Lanças caem do céu. Custo alto de mana, sugerido nível 1.</div>
+                                                                <div class="tt-title">Espada Dançante</div>
+                                                                <div class="tt-desc">Não é necessário upar, apenas no começo se quiser. Nível 1</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="game-tier">
-                                                    <div class="game-tier-header"><span>IV</span> Valhala</div>
+                                                    <div class="game-tier-header"><span>IV</span> Bruxo</div>
                                                     <div class="game-tier-body">
-                                                        <div class="skill-node pos-t4-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t4-1', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t4-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t4-1', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM60 F_Elemental.bmp" alt="Chama Elemental"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Farina</div>
-                                                                <div class="tt-desc">Ataque furioso com a lança. Excelente DPS (Nível 10).</div>
+                                                                <div class="tt-title">Chama Elemental</div>
+                                                                <div class="tt-desc">O pior dos pets. Nível 1</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t4-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(event, 'ata-t4-2', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t4-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(event, 'mag-t4-2', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM63 F_Wave.bmp" alt="Ondas de Fogo"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Espírito de Vingança</div>
-                                                                <div class="tt-desc">Summona um espírito aliado. Pode ser útil no nível 1.</div>
+                                                                <div class="tt-title">Ondas de Fogo</div>
+                                                                <div class="tt-desc">Guarde seus pontos de EP para outras habilidades. Nível 1.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t4-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t4-3', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t4-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t4-3', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM66 Distortion.bmp" alt="Distorção"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Lança de Gelo</div>
-                                                                <div class="tt-desc">Esta habilidade é essencial para congelar seus adversários. Ela é a segunda habilidade a ser carregada, e deve ser colocada no nível 10.</div>
+                                                                <div class="tt-title">Distorção</div>
+                                                                <div class="tt-desc">Habilidade essencial para PvP e PvE em mapas de nível mais alto. Colocar nível 10 o quanto antes.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t4-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t4-4', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t4-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t4-4', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM70 Meteo.bmp" alt="Meteoro"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Lança Gigante</div>
-                                                                <div class="tt-desc">Ataque AoE mais poderoso. Obrigatório nível 10 no late game.</div>
+                                                                <div class="tt-title">Meteoro</div>
+                                                                <div class="tt-desc">Habilidade em desuso. Não é necessário upar, apenas no começo se quiser. Nível 1</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="game-tier">
-                                                    <div class="game-tier-header"><span>V</span> Tier 5</div>
+                                                    <div class="game-tier-header"><span>V</span> Mestre Elemental</div>
                                                     <div class="game-tier-body">
-                                                        <div class="skill-node pos-t1-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t5-1', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t1-1" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t5-1', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM80 Silraphim.bmp" alt="Silraphim"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Habilidade Tier 5.1</div>
-                                                                <div class="tt-desc">Descrição principal da skill tier 5. Sugestão: Nível 1.</div>
+                                                                <div class="tt-title">Silraphim</div>
+                                                                <div class="tt-desc">Principal habilidade de ataque em área do mago. Nível 10 o quanto antes.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t1-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t5-2', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t1-2" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t5-2', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM83 V_Tenus.bmp" alt="Vis Tenus"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Habilidade Tier 5.2</div>
-                                                                <div class="tt-desc">Descrição principal da skill tier 5. Sugestão: Nível 10.</div>
+                                                                <div class="tt-title">Vis Tenus</div>
+                                                                <div class="tt-desc">Habilidade essencial para PvE em mapas de nível mais alto. Colocar nível 10 quando as essenciais já estiverem 10.</div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="skill-node pos-t1-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'ata-t5-3', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                        <div class="skill-node pos-t1-3" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(this, 'mag-t5-3', 'mago', event)">
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM86 P_Ignis.bmp" alt="Prima Ignis"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Habilidade Tier 5.3</div>
-                                                                <div class="tt-desc">Descrição principal da skill tier 5. Sugestão: Nível 10.</div>
+                                                                <div class="tt-title">Prima Ignis</div>
+                                                                <div class="tt-desc">Principal habilidade de dano 1x1. Nível 10 o quanto antes.</div>
                                                             </div>
                                                         </div>
 
                                                         <div class="skill-node pos-t1-4" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" onclick="toggleTooltip(event, 'ata-t5-4', 'mago', event)">
-                                                            <div class="hex-border"><div class="hex-inner"></div></div>
+                                                            <div class="hex-border"><div class="hex-inner"><img src="Habilidades/Mago/MM90 T_Anima.bmp" alt="Third Anima"></div></div>
                                                             <div class="skill-bars"><div class="bar-bg"><div class="bar-fill bar-pink"></div></div><div class="bar-bg"><div class="bar-fill bar-yellow"></div></div></div>
                                                             <div class="tooltip-data" style="display: none;">
-                                                                <div class="tt-title">Habilidade Tier 5.4</div>
-                                                                <div class="tt-desc">Descrição principal da skill tier 5. Sugestão: Nível 10.</div>
+                                                                <div class="tt-title">Third Anima</div>
+                                                                <div class="tt-desc">Principal buff de ataque do mago. Nível 10 o quanto antes.</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -3172,6 +3172,37 @@
                     "<b>Regeneração de HP:</b> +40%", "<b>Regeneração de HP:</b> +50%", "<b>Regeneração de HP:</b> +60%",
                     "<b>Regeneração de HP:</b> +70%", "<b>Regeneração de HP:</b> +80%", "<b>Regeneração de HP:</b> +90%",
                     "<b>Regeneração de HP:</b> +100%"
+                ]
+            },
+
+            'mag-t1-1': {
+                nome: "Agonia",
+                niveis: [
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 1
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 2
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 3
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 4
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 5
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 6
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 7
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 8
+                    "<b>Taxa de conversão:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 9
+                    "<b>Taxa de conversão:</b> 40%<br><b>Custo de MP:</b> 1(-0)<br><b>RES utilizada:</b> 21(-6)"  // Nv 10
+                ]
+            },
+            'mag-t1-2': {
+                nome: "Fagulha",
+                niveis: [
+                    "<b>Poder de Ataque:</b> 10(+347)-20(+415)<br><b>Alcance:</b> 200<br><b>Custo de MP:</b> 16(-4)<br><b>RES utilizada:</b> 11(-3)", // Nv 1
+                    "<b>Poder de Ataque:</b> 13(+347)-24(+415)<br><b>Alcance:</b> 200<br><b>Custo de MP:</b> 18)-5)<br><b>RES utilizada:</b> 12(-3)", // Nv 2
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 3
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 4
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 5
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 6
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 7
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 8
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?", // Nv 9
+                    "<b>Poder de Ataque:</b> ?<br><b>Alcance:</b> ?<br><b>Custo de MP:</b> ?<br><b>RES utilizada:</b> ?"  // Nv 10
                 ]
             }
         };

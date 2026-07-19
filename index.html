@@ -110,12 +110,33 @@
         [data-bs-theme="light"] .theme-toggle-btn { color: #4e342e; }
         [data-bs-theme="light"] .theme-toggle-btn:hover { background: rgba(139, 107, 74, 0.15); }
         
+        /* Ajuste para os links da navbar no modo claro */
+        [data-bs-theme="light"] .navbar-custom .nav-link {
+            color: #4e342e !important; /* Cor escura para contrastar com o fundo claro */
+        }
+
+        /* Ajuste para garantir que o link ativo ou hover também seja visível */
+        [data-bs-theme="light"] .navbar-custom .nav-link:hover,
+        [data-bs-theme="light"] .navbar-custom .nav-link.active {
+            color: #261a18 !important; /* Um tom ainda mais escuro para destaque */
+        }
+
+        /* Cor de destaque para o "Site Oficial" no modo escuro (mantendo o amarelo) */
+        [data-bs-theme="dark"] .nav-link.text-warning {
+            color: #ffc107 !important;
+        }
+
+        /* Cor de destaque para o "Site Oficial" no modo claro (um marrom mais forte) */
+        [data-bs-theme="light"] .nav-link.text-warning {
+            color: #a44537 !important; /* Tom de marrom escuro que combina com seu tema */
+            font-weight: bold;         /* Opcional: deixa o destaque mais visível */
+        }
+        
         /* Rodapé no modo claro */
         [data-bs-theme="light"] footer { 
             background-color: #d7ccc8; 
             border-top: 1px solid #8b6b4a; 
             color: #4e342e; 
-            font-weight: bold; 
         }
         [data-bs-theme="light"] .social-icons a { color: #4e342e; }
         [data-bs-theme="light"] .social-icons a:hover { color: #8b6b4a; } 

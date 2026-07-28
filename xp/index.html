@@ -309,8 +309,8 @@
                     <div class="col-md-6">
                         <label class="form-label">Frequência de Quests</label>
                         <select class="form-select" id="frequenciaQuests">
-                            <option value="0">Não faço Quests</option>
-                            <option value="1" selected>1x ao dia</option>
+                            <option value="0" selected>Não faço Quests</option>
+                            <option value="1">1x ao dia</option>
                             <option value="2">2x ao dia</option>
                             <option value="4">4x ao dia (Evento)</option>
                         </select>
@@ -416,6 +416,23 @@
             } else {
                 themeIcon.className = 'bi bi-moon-stars-fill';
                 themeToggle.style.color = '#4e342e';
+            }
+        }
+
+        /* =========================================
+           FUNÇÃO DE FORMATAÇÃO RESUMIDA (M, Bi, Tri, Quadra)
+           ========================================= */
+        function formatarNumeroResumido(valor) {
+            if (valor < 1000000) {
+                return Math.round(valor).toLocaleString('pt-BR') + ' XP';
+            } else if (valor >= 1000000 && valor < 1000000000) {
+                return (valor / 1000000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' M';
+            } else if (valor >= 1000000000 && valor < 1000000000000) {
+                return (valor / 1000000000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' Bi';
+            } else if (valor >= 1000000000000 && valor < 1000000000000000) {
+                return (valor / 1000000000000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' Tri';
+            } else {
+                return (valor / 1000000000000000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' Quadra';
             }
         }
 
@@ -571,7 +588,7 @@
             questsDisponiveis.forEach(quest => {
                 if (quest.minLevel <= levelCapAtual) {
                     const xpFormatada = quest.xpBase > 0
-                        ? `+${quest.xpBase.toLocaleString('pt-BR')} XP`
+                        ? `+${formatarNumeroResumido(quest.xpBase)}`
                         : `Sem XP Direta`;
                     
                     const questHTML = `
@@ -655,7 +672,7 @@
                 document.getElementById('txtPorcentagem').innerText = porcentagem.toFixed(2).replace('.', ',') + "%";
                 document.getElementById('barraProgresso').style.width = porcentagem + "%";
                 document.getElementById('barraProgresso').innerText = porcentagem.toFixed(2).replace('.', ',') + "%";
-                document.getElementById('txtXpProximo').innerText = `Faltam ${Math.round(xpFaltanteParaUp).toLocaleString('pt-BR')} XP para o Nível ${nivelAtual + 1}.`;
+                document.getElementById('txtXpProximo').innerText = `Faltam ${formatarNumeroResumido(xpFaltanteParaUp)} para o Nível ${nivelAtual + 1}.`;
             } else {
                 document.getElementById('txtPorcentagem').innerText = "MÁXIMO";
                 document.getElementById('barraProgresso').style.width = "100%";
@@ -776,8 +793,9 @@
             const caixa = document.getElementById('resultado');
             caixa.classList.remove('d-none');
             
-            document.getElementById('resXpFaltante').innerText = Math.round(xpFaltante).toLocaleString('pt-BR');
-            document.getElementById('resXpDiaria').innerText = Math.round(xpDiaria).toLocaleString('pt-BR');
+            // Usando a nova formatação para exibir os resultados da XP Faltante e Diária
+            document.getElementById('resXpFaltante').innerText = formatarNumeroResumido(xpFaltante);
+            document.getElementById('resXpDiaria').innerText = formatarNumeroResumido(xpDiaria);
             document.getElementById('resTempo').innerText = textoTempo;
             
             caixa.scrollIntoView({ behavior: 'smooth', block: 'nearest' });

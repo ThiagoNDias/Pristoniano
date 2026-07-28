@@ -256,9 +256,10 @@
                 <div class="row g-3">
                     <div class="col-md-12">
                         <label class="form-label">Para qual nível deseja ir?</label>
-                        <select class="form-select" id="nivelDesejado" required>
+                        <select class="form-select" id="nivelDesejado" required onchange="atualizarXpFaltanteObjetivo()">
                             <!-- Preenchido pelo JS automaticamente -->
                         </select>
+                        <span id="txtXpFaltanteObjetivo" class="mt-2 d-none"></span>
                     </div>
                 </div>
 
@@ -437,13 +438,38 @@
         }
 
         /* =========================================
-           DADOS E CONFIGURAÇÕES DOS SERVIDORES
+           DADOS E CONFIGURAÇÕES DOS SERVIDORES E MAPAS
            ========================================= */
 
         const configServidores = {
             "classico": { cap: 185, multiplicadorXP: 1.0 },
             "idhas": { cap: 180, multiplicadorXP: 1.0 },
             "cronus": { cap: 150, multiplicadorXP: 0.5 } 
+        };
+
+        const mapasPorNivel = {
+            40: ["Calabouço Antigo - 1º Andar"],
+            50: ["Calabouço Antigo - 2º Andar"],
+            55: ["Campo de Batalha dos Anciões", "Terra Proibida", "Caverna das Abelhas", "Caverna dos Cogumelos"],
+            60: ["Calabouço Antigo - 3º Andar"],
+            65: ["Santuário Sombrio"],
+            70: ["Templo Maldito - 1º Andar", "Lago da Ganância"],
+            75: ["Templo Maldito - 2º Andar"],
+            80: ["Templo Maldito - 3º Andar", "Estrada de Ferro do Caos"],
+            85: ["Coração de Perum"],
+            90: ["Vila Eura", "Vale Gallubia", "Santuário Congelado", "Covil de Kelvezu"],
+            95: ["Ilha Perdida"],
+            100: ["Templo Perdido", "Torre Sem Fim - 1º Andar"],
+            105: ["Torre Sem Fim - 2º Andar"],
+            108: ["Torre Sem Fim - 3º Andar"],
+            110: ["Mina de Gelo - 1º Andar"],
+            118: ["Laboratório Secreto"],
+            123: ["Arma Antiga"],
+            130: ["Estrada Sombria"],
+            140: ["Abismo do Mar"],
+            155: ["Abismo do Mar Congelado"],
+            165: ["Santuário do Abismo"],
+            172: ["Coração de Fogo"]
         };
 
         let levelCapAtual = 185;
@@ -550,7 +576,6 @@
            ========================================= */
 
         function formatarXP(input) {
-            // Remove o que não é número e aplica a formatação nativa de milhar do JS
             let numeros = input.value.replace(/\D/g, '');
             input.value = numeros ? parseInt(numeros, 10).toLocaleString('pt-BR') : '';
             atualizarStatusPersonagem();
@@ -579,6 +604,7 @@
                 selectNivel.appendChild(option);
             }
             selectNivel.disabled = false;
+            atualizarXpFaltanteObjetivo();
         }
 
         function renderizarQuests() {
@@ -592,7 +618,7 @@
                         : `Sem XP Direta`;
                     
                     const questHTML = `
-                        <div class="col-md-6">
+                        <div class="col-md-6 quest-item" data-minlevel="${quest.minLevel}">
                             <div class="quest-box">
                                 <input class="quest-checkbox" type="checkbox" id="${quest.id}" value="${quest.xpBase}">
                                 <label class="quest-label" for="${quest.id}">
@@ -619,6 +645,21 @@
             });
         }
 
+        function filtrarQuestsPorNivel(nivelAtual) {
+            const quests = document.querySelectorAll('.quest-item');
+            quests.forEach(q => {
+                const minLevel = Number(q.getAttribute('data-minlevel'));
+                
+                if (minLevel <= nivelAtual) {
+                    q.classList.remove('d-none');
+                } else {
+                    q.classList.add('d-none');
+                    const checkbox = q.querySelector('.quest-checkbox');
+                    if (checkbox) checkbox.checked = false;
+                }
+            });
+        }
+
         function toggleOutrosQuests() {
             const container = document.getElementById('containerOutros');
             const isChecked = document.getElementById('toggleOutrosNPCs').checked;
@@ -632,8 +673,50 @@
             }
         }
 
+        /* NOVA FUNÇÃO: Gera o texto do mapa caso o nível libere algum */
+        function gerarTextoMapas(nivel) {
+            const mapas = mapasPorNivel[nivel];
+            if (!mapas) return ".";
+
+            if (mapas.length === 1) {
+                return `, e liberar o acesso ao mapa ${mapas[0]}!`;
+            }
+
+            const mapasFormatados = mapas.slice(0, -1).join(", ") + " e " + mapas[mapas.length - 1];
+            return `, e liberar o acesso aos mapas ${mapasFormatados}!`;
+        }
+
+        function atualizarXpFaltanteObjetivo() {
+            const spanXpFaltante = document.getElementById('txtXpFaltanteObjetivo');
+            
+            const xpRaw = document.getElementById('xpAtual').value.replace(/\./g, '');
+            if (!xpRaw) {
+                spanXpFaltante.classList.add('d-none');
+                return;
+            }
+            
+            const xpScale = Number(document.getElementById('xpScale').value);
+            const xpAtual = Number(xpRaw) * xpScale;
+            const nivelDesejado = Number(document.getElementById('nivelDesejado').value);
+            
+            if (!nivelDesejado || nivelDesejado <= 1) return;
+
+            const xpNecessaria = xpPorNivel[nivelDesejado];
+            const xpFaltante = xpNecessaria - xpAtual;
+
+            spanXpFaltante.classList.remove('d-none');
+
+            if (xpFaltante > 0) {
+                const textoMapas = gerarTextoMapas(nivelDesejado);
+                spanXpFaltante.innerHTML = `<i class="bi bi-arrow-right-circle"></i> Faltam <strong>${formatarNumeroResumido(xpFaltante)}</strong> para alcançar o Nível ${nivelDesejado}${textoMapas}`;
+                spanXpFaltante.className = "mt-2 d-block text-info fw-bold fs-6";
+            } else {
+                spanXpFaltante.innerHTML = `<i class="bi bi-check-circle"></i> Você já tem XP suficiente para o Nível ${nivelDesejado}!`;
+                spanXpFaltante.className = "mt-2 d-block text-success fw-bold fs-6";
+            }
+        }
+
         function atualizarStatusPersonagem() {
-            // Removemos os pontos apenas para fazer o cálculo interno
             const xpRaw = document.getElementById('xpAtual').value.replace(/\./g, '');
             const xpScale = Number(document.getElementById('xpScale').value);
             const xpDigitada = xpRaw ? Number(xpRaw) * xpScale : 0;
@@ -643,6 +726,7 @@
             if (!xpRaw) {
                 areaProgresso.classList.add('d-none');
                 carregarOpcoesNivelIniciais();
+                filtrarQuestsPorNivel(levelCapAtual);
                 return;
             }
 
@@ -668,11 +752,12 @@
                 if (porcentagem < 0) porcentagem = 0;
 
                 const xpFaltanteParaUp = xpTotalDoNivel - xpConquistadaNoNivel;
+                const textoMapasProgresso = gerarTextoMapas(nivelAtual + 1);
 
                 document.getElementById('txtPorcentagem').innerText = porcentagem.toFixed(2).replace('.', ',') + "%";
                 document.getElementById('barraProgresso').style.width = porcentagem + "%";
                 document.getElementById('barraProgresso').innerText = porcentagem.toFixed(2).replace('.', ',') + "%";
-                document.getElementById('txtXpProximo').innerText = `Faltam ${formatarNumeroResumido(xpFaltanteParaUp)} para o Nível ${nivelAtual + 1}.`;
+                document.getElementById('txtXpProximo').innerText = `Faltam ${formatarNumeroResumido(xpFaltanteParaUp)} para alcançar o Nível ${nivelAtual + 1}${textoMapasProgresso}`;
             } else {
                 document.getElementById('txtPorcentagem').innerText = "MÁXIMO";
                 document.getElementById('barraProgresso').style.width = "100%";
@@ -706,10 +791,12 @@
                     selectNivel.value = nivelAtual + 1;
                 }
             }
+
+            atualizarXpFaltanteObjetivo();
+            filtrarQuestsPorNivel(nivelAtual);
         }
 
         function calcular() {
-            // Removemos os pontos apenas para fazer o cálculo interno
             const xpRaw = document.getElementById('xpAtual').value.replace(/\./g, '');
             const xpScale = Number(document.getElementById('xpScale').value);
             const xpAtual = xpRaw ? Number(xpRaw) * xpScale : 0;
@@ -793,7 +880,6 @@
             const caixa = document.getElementById('resultado');
             caixa.classList.remove('d-none');
             
-            // Usando a nova formatação para exibir os resultados da XP Faltante e Diária
             document.getElementById('resXpFaltante').innerText = formatarNumeroResumido(xpFaltante);
             document.getElementById('resXpDiaria').innerText = formatarNumeroResumido(xpDiaria);
             document.getElementById('resTempo').innerText = textoTempo;

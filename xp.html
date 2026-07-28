@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <meta http-equiv="content-language" content="pt-br">
+    <meta name="author" content="Thiago Dias" />
+    <meta property="og:site_name" content="O Pristoniano">
+    <title>Calculadora de XP - O Pristoniano</title>
+    
+    <style>
+        /* --- ESTILOS GERAIS & MODO ESCURO --- */
+        body {
+            background-image: url('CapaFundo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-blend-mode: overlay;
+            background-color: rgba(0, 0, 0, 0.6);
+            transition: background-color 0.5s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 100px;
+            padding-bottom: 40px;
+        }
+
+        /* --- PAINEL DE VIDRO --- */
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid #ffc107;
+            color: #e0e0e0;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        /* --- NAVBAR E RODAPÉ --- */
+        .navbar-custom { background-color: #2b2300 !important; border-bottom: 1px solid #ffc107; }
+        .theme-toggle-btn { cursor: pointer; border: none; background: transparent; font-size: 1.2rem; padding: 5px 10px; border-radius: 50%; color: #ffc107; }
+        .theme-toggle-btn:hover { background: rgba(255,255,255,0.1); }
+        footer { background-color: #2b2300; border-top: 1px solid #ffc107; font-size: 0.9rem; color: #e0e0e0; margin-top: auto; }
+        .social-icons a { color: #e0e0e0; margin: 0 8px; font-size: 1.8rem; transition: transform 0.3s, color 0.3s; display: inline-block; }
+        .social-icons a:hover { transform: scale(1.2); color: #ffc107; }
+
+        /* --- MODO CLARO --- */
+        [data-bs-theme="light"] body { background-blend-mode: normal; background-color: transparent; }
+        [data-bs-theme="light"] .glass-panel { background: rgba(235, 225, 205, 0.95); border: 1px solid #8b6b4a; color: #3e2723; }
+        [data-bs-theme="light"] .navbar-custom { background-color: #d7ccc8 !important; border-bottom: 1px solid #8b6b4a; }
+        [data-bs-theme="light"] .theme-toggle-btn { color: #4e342e; }
+        [data-bs-theme="light"] .navbar-custom .nav-link { color: #4e342e !important; }
+        [data-bs-theme="light"] .navbar-custom .nav-link:hover, [data-bs-theme="light"] .navbar-custom .nav-link.active { color: #261a18 !important; }
+        [data-bs-theme="dark"] .nav-link.text-warning { color: #ffc107 !important; }
+        [data-bs-theme="light"] .nav-link.text-warning { color: #a44537 !important; }
+        [data-bs-theme="light"] footer { background-color: #d7ccc8; border-top: 1px solid #8b6b4a; color: #4e342e; }
+        [data-bs-theme="light"] .social-icons a { color: #4e342e; }
+
+        /* --- ESTILOS DA CALCULADORA --- */
+        .calc-container { width: 100%; max-width: 800px; padding: 30px; }
+        .form-label { font-weight: 600; }
+        
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        [data-bs-theme="light"] .result-box {
+            background: rgba(255, 255, 255, 0.5);
+            border-color: #8b6b4a;
+        }
+
+        /* --- LISTA DE QUESTS E SCROLLBAR --- */
+        .lista-quests-container {
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 10px;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        [data-bs-theme="light"] .lista-quests-container {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(139, 107, 74, 0.3);
+        }
+        
+        .lista-quests-container::-webkit-scrollbar { width: 8px; }
+        .lista-quests-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
+        .lista-quests-container::-webkit-scrollbar-thumb { background: rgba(255,193,7,0.5); border-radius: 4px; }
+        .lista-quests-container::-webkit-scrollbar-thumb:hover { background: rgba(255,193,7,0.8); }
+
+        /* --- CHECKBOX DE QUESTS (ESTILO RPG) --- */
+        .quest-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: border-color 0.2s, background-color 0.2s;
+            height: 100%;
+        }
+        [data-bs-theme="light"] .quest-box {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .quest-checkbox { display: none; }
+        
+        .quest-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+            margin: 0;
+        }
+        
+        .quest-marker {
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #6c5738; 
+            border-radius: 4px;
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+            box-shadow: inset 0 0 8px rgba(0,0,0,1);
+        }
+        
+        .quest-box:hover { border-color: rgba(255, 193, 7, 0.5); }
+        .quest-box:hover .quest-marker {
+            border-color: #ffc107;
+            box-shadow: inset 0 0 5px rgba(255,193,7,0.3), 0 0 5px rgba(255,193,7,0.4);
+        }
+
+        .quest-checkbox:checked + .quest-label .quest-marker {
+            background: rgba(43, 35, 0, 0.8);
+            border-color: #ffc107;
+        }
+        
+        .quest-checkbox:checked + .quest-label .quest-marker::after {
+            content: '\f00c'; 
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: #ffc107;
+            font-size: 1.1rem;
+            text-shadow: 0 0 8px #ffc107;
+        }
+        
+        [data-bs-theme="light"] .quest-marker {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: #8b6b4a;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+        [data-bs-theme="light"] .quest-checkbox:checked + .quest-label .quest-marker {
+            background: rgba(255, 193, 7, 0.2);
+        }
+        
+        /* Ajuste do Badge de NPC no Modo Claro */
+        [data-bs-theme="light"] .badge-npc {
+            background-color: #e9ecef !important;
+            color: #4e342e !important;
+            border-color: #ced4da !important;
+        }
+
+        /* Toggle de Quests Extras */
+        .form-switch .form-check-input:checked {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar fixed-top navbar-expand-lg navbar-custom shadow-sm">
+        <div class="container">
+            <div class="d-flex align-items-center gap-3 order-lg-3">
+                <button class="theme-toggle-btn" id="themeToggle" title="Alternar Modo">
+                    <i class="bi bi-sun-fill" id="themeIcon"></i>
+                </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse order-lg-2" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center fw-medium">
+                    <li class="nav-item"><a class="nav-link fw-bold active" href="https://www.pristoniano.com.br/">O Pristoniano</a></li>
+                    <li class="nav-item"><a class="nav-link">Em breve</a></li>
+                    <li class="nav-item"><a class="nav-link">Em breve</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://blog.pristoniano.com.br/" target="_blank">Blog</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="https://zenit.games/priston/" target="_blank">
+                            Site Oficial <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.8rem;"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="calc-container glass-panel rounded-4 shadow-lg mx-3">
+            <h2 class="text-center mb-4 text-warning fw-bold"><i class="bi bi-calculator"></i> Calculadora de Experiência</h2>
+            
+            <form id="xpForm">
+                
+                <!-- SEU PERSONAGEM -->
+                <h5 class="text-warning mt-4 border-bottom border-warning pb-2">1. Seu Personagem</h5>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Experiência (XP) Total Atual</label>
+                        <input type="number" class="form-control form-control-lg" id="xpAtual" placeholder="Digite sua XP..." required min="0" oninput="atualizarStatusPersonagem()">
+                    </div>
+                    
+                    <div class="col-md-12 d-none" id="areaProgresso">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="badge bg-warning text-dark fs-6" id="txtNivelAtual">Nível: ?</span>
+                            <span class="fw-bold" id="txtPorcentagem">0,00%</span>
+                        </div>
+                        <div class="progress shadow-sm" style="height: 25px; background-color: rgba(128, 128, 128, 0.2);">
+                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated fw-bold fs-6" id="barraProgresso" style="width: 0%"></div>
+                        </div>
+                        <small class="text-muted mt-1 d-block" id="txtXpProximo">Faltam 0 XP para o próximo nível.</small>
+                    </div>
+                </div>
+
+                <!-- OBJETIVO -->
+                <h5 class="text-warning mt-4 border-bottom border-warning pb-2">2. Seu Objetivo</h5>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Para qual nível deseja ir?</label>
+                        <select class="form-select" id="nivelDesejado" required>
+                            <!-- Preenchido pelo JS automaticamente -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ROTINA DE CAÇA -->
+                <h5 class="text-warning mt-4 border-bottom border-warning pb-2">3. Ritmo de Caça (Grind)</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">XP ganha caçando</label>
+                        <input type="number" class="form-control" id="xpGanho" placeholder="Ex: 5000000" min="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">A cada quanto tempo?</label>
+                        <select class="form-select" id="xpIntervalo">
+                            <option value="5">5 Minutos</option>
+                            <option value="10">10 Minutos</option>
+                            <option value="60">1 Hora</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tempo dedicado</label>
+                        <input type="number" class="form-control" id="tempoJogo" placeholder="Ex: 4" min="0" step="0.5">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Frequência</label>
+                        <select class="form-select" id="frequenciaJogo">
+                            <option value="dia">Horas por Dia</option>
+                            <option value="semana">Horas por Semana</option>
+                            <option value="mes">Horas por Mês</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- QUESTS DIÁRIAS -->
+                <h5 class="text-warning mt-4 border-bottom border-warning pb-2">4. Quests Diárias</h5>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label">Servidor Atual</label>
+                        <!-- O evento onchange chama a atualização de interface -->
+                        <select class="form-select border-warning" id="servidorJogado" onchange="mudarServidor()">
+                            <option value="classico">Awell / Migal / Midranda (Cap: 185)</option>
+                            <option value="idhas">Idhas (Cap: 180)</option>
+                            <option value="cronus">Cronus (Cap: 150 | Taxa de XP Reduzida)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Frequência de Quests</label>
+                        <select class="form-select" id="frequenciaQuests">
+                            <option value="0">Não faço Quests</option>
+                            <option value="1" selected>1x ao dia</option>
+                            <option value="2">2x ao dia</option>
+                            <option value="4">4x ao dia (Evento)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mt-md-4 pt-md-2">
+                        <div class="form-check fs-5">
+                            <input class="form-check-input" type="checkbox" id="itemPremium">
+                            <label class="form-check-label text-warning fw-bold" for="itemPremium">
+                                Item Premium (+20% XP)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 1: INSTRUTORA ALINE -->
+                <label class="form-label fs-5 text-warning border-bottom border-warning w-100 pb-2 mt-2">
+                    <i class="bi bi-person-fill"></i> Instrutora Aline
+                </label>
+                <div class="lista-quests-container mb-3">
+                    <div class="row g-2" id="listaQuestsAline">
+                        <!-- Checkboxes Aline preenchidos pelo JS -->
+                    </div>
+                </div>
+
+                <!-- SWITCH PARA QUESTS CLÁSSICAS -->
+                <div class="form-check form-switch mb-3 fs-5 mt-4">
+                    <input class="form-check-input" type="checkbox" id="toggleOutrosNPCs" onchange="toggleOutrosQuests()">
+                    <label class="form-check-label text-info fw-bold" for="toggleOutrosNPCs">
+                        Incluir Quests Clássicas (Owen, Jin e Skadi)?
+                    </label>
+                </div>
+
+                <!-- SEÇÃO 2: OUTROS NPCS (OCULTA POR PADRÃO) -->
+                <div id="containerOutros" class="d-none">
+                    <label class="form-label fs-5 text-warning border-bottom border-warning w-100 pb-2">
+                        <i class="bi bi-people-fill"></i> Caçador Owen, Jin e Skadi
+                    </label>
+                    <div class="lista-quests-container">
+                        <div class="row g-2" id="listaQuestsOutros">
+                            <!-- Checkboxes Outros NPCs preenchidos pelo JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTÃO DE CÁLCULO -->
+                <div class="mt-4 text-center">
+                    <button type="button" class="btn btn-warning w-100 fw-bold fs-4 py-2" onclick="calcular()">Calcular Tempo Necessário</button>
+                </div>
+            </form>
+
+            <!-- CAIXA DE RESULTADO -->
+            <div id="resultado" class="result-box d-none text-center">
+                <h4 class="mb-3 border-bottom border-warning pb-2">Resultado da Simulação</h4>
+                
+                <div class="row fs-5 mb-3">
+                    <div class="col-6 text-end border-end">
+                        XP Total Faltante:<br>
+                        <strong id="resXpFaltante" class="text-warning">0</strong>
+                    </div>
+                    <div class="col-6 text-start">
+                        XP Diária (Caça + Quests):<br>
+                        <strong id="resXpDiaria" class="text-info">0</strong>
+                    </div>
+                </div>
+                
+                <h3>Tempo Estimado:</h3>
+                <h1 id="resTempo" class="text-success fw-bold display-5">0 Dias</h1>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="text-center py-4">
+        <div class="container">
+            <p class="mb-2">2024-2026. O Pristoniano. Priston Tale<sup>&copy;</sup> Brasil. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        /* --- LÓGICA DE TEMA --- */
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.setAttribute('data-bs-theme', savedTheme);
+            updateIcon(savedTheme);
+        } else {
+            updateIcon('dark'); 
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-sun-fill';
+                themeToggle.style.color = '#ffc107'; 
+            } else {
+                themeIcon.className = 'bi bi-moon-stars-fill';
+                themeToggle.style.color = '#4e342e'; 
+            }
+        }
+
+        /* =========================================
+           DADOS E CONFIGURAÇÕES DOS SERVIDORES
+           ========================================= */
+
+        const configServidores = {
+            "classico": { cap: 185, multiplicadorXP: 1.0 },
+            "idhas": { cap: 180, multiplicadorXP: 1.0 },
+            "cronus": { cap: 150, multiplicadorXP: 0.5 } // Altere o 0.5 para a taxa de XP desejada do Cronus
+        };
+
+        // Variáveis ativas controladas pela seleção
+        let levelCapAtual = 185;
+        let multiplicadorAtual = 1.0;
+
+        const xpPorNivel = [
+            0, 0, 1000, 2500, 5000, 9500, 17100, 29925, 51471, 87500, 140001, 212801, 306434, 416750, 
+            537608, 672010, 833293, 1024950, 1250950, 1515533, 1824702, 2182343, 2592624, 3059296, 
+            3591614, 4195005, 4874596, 5635033, 6480288, 7413449, 8443919, 9575404, 10820207, 12194372, 
+            13706475, 15378665, 17224105, 19273774, 21548079, 24069204, 26861232, 29950274, 33364605, 
+            37134805, 41293904, 45836233, 50878219, 56474823, 62687054, 69582630, 77236719, 85809995, 
+            95334904, 105917079, 117673875, 130735675, 145312702, 161515069, 179523999, 199540925, 
+            212789738, 246630189, 274252770, 304969080, 339125616, 377107687, 419532302, 466729685, 
+            519236775, 577650912, 642636640, 715254581, 796078348, 886035202, 986157179, 1097592841, 
+            1222159740, 1360886005, 1515346567, 1687338402, 1878851311, 2104313468, 2356831084, 
+            2639650815, 2956408912, 3311177982, 3708519340, 4153541661, 4651966660, 5210202659, 
+            6252243191, 7502691829, 9003230195, 10803876234, 12964651481, 15557581778, 18669098134, 
+            22402917760, 26883501313, 32260201575, 38712241890, 46454690268, 55745628322, 66894753987, 
+            80273704784, 96328445741, 115594134890, 138712961868, 166455554241, 199746665090, 
+            239695998108, 287635197729, 345162237275, 414194684730, 497033621676, 596440346012, 
+            715728415214, 858874098257, 1030648917908, 1236778701490, 1484134441788, 1706754608057, 
+            1962767799265, 2257182969153, 2595760414526, 2985124476710, 3432893148211, 3947827120442, 
+            4540001188510, 5221001366783, 5899731544465, 6666696645242, 7533367209125, 8512704946310, 
+            9619356589334, 10869872945946, 12282956428917, 13879740764674, 15684107064080, 17723040982409, 
+            19672575490472, 21836558794412, 24238580261797, 26904824090594, 29864354740559, 
+            33149433762020, 36795871475842, 40843417338184, 45336193245384, 50323174502376, 
+            55858723697637, 63120357778330, 71326004289513, 80598384847150, 91076174877279, 
+            102916077611325, 116295167700798, 131413539501901, 148497299637148, 167801948589978, 
+            189616201906675, 216162470173609, 248586840699651, 288360735211595, 337382060197566, 
+            398110831033128, 473751888929422, 568502266715307, 687887742725521, 839223046125136, 
+            1023852116272670, 1290053666503560, 1677069766454630, 2230502789384650, 3011178765669280, 
+            4125314908966920, 5734187723464010, 8085204690084260, 11480990659919600, 16417816643685100, 
+            23641655966906500, 34280401152014500, 49020973674380700, 69119572842806800, 
+            96076206251501400, 131624402564557000
+        ];
+
+        // Base unificada de Quests com minLevel para filtro automático
+        const questsDisponiveis = [
+            // INSTRUTORA ALINE
+            { id: "a180", nome: "Em Busca de Respostas", nivelReq: "180+", minLevel: 180, xpBase: 423753313500, npc: "Instrutora Aline" },
+            { id: "a178", nome: "A Alma de Fogo", nivelReq: "178+", minLevel: 178, xpBase: 353127761250, npc: "Instrutora Aline" },
+            { id: "a175", nome: "A Essência do Fogo", nivelReq: "175+", minLevel: 175, xpBase: 330087924375, npc: "Instrutora Aline" },
+            { id: "a172", nome: "Ameaça Flamejante", nivelReq: "172+", minLevel: 172, xpBase: 302230580357, npc: "Instrutora Aline" },
+            { id: "a170", nome: "Salve o Reino do Mar", nivelReq: "170+", minLevel: 170, xpBase: 265962910714, npc: "Instrutora Aline" },
+            { id: "a165", nome: "O Recomeço da Guerra", nivelReq: "165+", minLevel: 165, xpBase: 219560137500, npc: "Instrutora Aline" },
+            { id: "a160", nome: "Covil do Dragão de Gelo", nivelReq: "160+", minLevel: 160, xpBase: 184546793062, npc: "Instrutora Aline" },
+            { id: "a155", nome: "Ruínas da Cidade Antiga", nivelReq: "155+", minLevel: 155, xpBase: 173553511312, npc: "Instrutora Aline" },
+            { id: "a150", nome: "Confronto sob as Águas", nivelReq: "150+", minLevel: 150, xpBase: 165966682200, npc: "Instrutora Aline" },
+            { id: "a140", nome: "Descobrindo as Profundezas", nivelReq: "140+", minLevel: 140, xpBase: 149527186050, npc: "Instrutora Aline" },
+            { id: "a130", nome: "O Mundo Sombrio", nivelReq: "130+", minLevel: 130, xpBase: 84779847000, npc: "Instrutora Aline" },
+            { id: "a123", nome: "Protetores da Arma", nivelReq: "123+", minLevel: 123, xpBase: 69949440000, npc: "Instrutora Aline" },
+            { id: "a118", nome: "Máquinas das Trevas", nivelReq: "118+", minLevel: 118, xpBase: 41496000000, npc: "Instrutora Aline" },
+            { id: "a110", nome: "Combate Congelante", nivelReq: "110+", minLevel: 110, xpBase: 33766200000, npc: "Instrutora Aline" },
+            { id: "a108", nome: "Guardiões Igolanos", nivelReq: "108+", minLevel: 108, xpBase: 20164608000, npc: "Instrutora Aline" },
+            { id: "a105", nome: "Guerreiros do Passado", nivelReq: "105+", minLevel: 105, xpBase: 18117000000, npc: "Instrutora Aline" },
+            { id: "a100", nome: "Aberrações Mortais", nivelReq: "100+", minLevel: 100, xpBase: 7818582000, npc: "Instrutora Aline" },
+            { id: "a95", nome: "Combate na Ilha", nivelReq: "95+", minLevel: 95, xpBase: 3730320000, npc: "Instrutora Aline" },
+            { id: "a90", nome: "Entrando Numa Fria", nivelReq: "90+", minLevel: 90, xpBase: 1082730000, npc: "Instrutora Aline" },
+            { id: "a85", nome: "Engrenagens do Destino", nivelReq: "85+", minLevel: 85, xpBase: 757680000, npc: "Instrutora Aline" },
+            { id: "a80", nome: "Máquinas de Combate", nivelReq: "80+", minLevel: 80, xpBase: 513480000, npc: "Instrutora Aline" },
+            { id: "a70", nome: "Perigos do Lago", nivelReq: "70+", minLevel: 70, xpBase: 191647500, npc: "Instrutora Aline" },
+            { id: "a60", nome: "A Prisão Antiga", nivelReq: "60+", minLevel: 60, xpBase: 118860000, npc: "Instrutora Aline" },
+            { id: "a40", nome: "Treinamento Básico", nivelReq: "40+", minLevel: 40, xpBase: 0, npc: "Instrutora Aline" },
+
+            // CAÇADOR OWEN
+            { id: "q180", nome: "Insec, Gigante Lava e Flamo", nivelReq: "180+", minLevel: 180, xpBase: 80000000000, npc: "Caçador Owen" },
+            { id: "q178", nome: "Insec e Arqueiro de Lava", nivelReq: "178+", minLevel: 178, xpBase: 65000000000, npc: "Caçador Owen" },
+            { id: "q175", nome: "Igniculus e Arqueiro de Lava", nivelReq: "175+", minLevel: 175, xpBase: 55000000000, npc: "Caçador Owen" },
+            { id: "q172", nome: "Igniculus e Guardião de Lava", nivelReq: "172+", minLevel: 172, xpBase: 40000000000, npc: "Caçador Owen" },
+            { id: "q170", nome: "Dey Ferido e Sathla Ferido", nivelReq: "170+", minLevel: 170, xpBase: 30000000000, npc: "Caçador Owen" },
+            { id: "q165", nome: "Koon Ferido e Crios Insano", nivelReq: "165+", minLevel: 165, xpBase: 25000000000, npc: "Caçador Owen" },
+            { id: "q160", nome: "Kryosdey e Faugelus", nivelReq: "160+", minLevel: 160, xpBase: 20000000000, npc: "Caçador Owen" },
+            { id: "q155", nome: "Gurcold e Snowkoon", nivelReq: "155+", minLevel: 155, xpBase: 15000000000, npc: "Caçador Owen" },
+            { id: "q150", nome: "Koon e Shogoth", nivelReq: "150+", minLevel: 150, xpBase: 12500000000, npc: "Caçador Owen" },
+            { id: "q145", nome: "Dey e Faugn", nivelReq: "145+", minLevel: 145, xpBase: 11000000000, npc: "Caçador Owen" },
+            { id: "q140", nome: "Gurkob e Koon", nivelReq: "140+", minLevel: 140, xpBase: 10500000000, npc: "Caçador Owen" },
+            { id: "q135", nome: "Ignis e Crios", nivelReq: "135+", minLevel: 135, xpBase: 10000000000, npc: "Caçador Owen" },
+            { id: "q130", nome: "Inferno e Guardião", nivelReq: "130+", minLevel: 130, xpBase: 9500000000, npc: "Caçador Owen" },
+            { id: "q127", nome: "Bombardeiro e Elite Zumbi", nivelReq: "127+", minLevel: 127, xpBase: 9000000000, npc: "Caçador Owen" },
+            { id: "q123", nome: "Técnico e Soldado Zumbi", nivelReq: "123+", minLevel: 123, xpBase: 5100000000, npc: "Caçador Owen" },
+            { id: "q121", nome: "Bombardeiro e Guardião Lab.", nivelReq: "121+", minLevel: 121, xpBase: 4800000000, npc: "Caçador Owen" },
+            { id: "q118", nome: "Técnico Lab. e Invasores", nivelReq: "118+", minLevel: 118, xpBase: 4200000000, npc: "Caçador Owen" },
+            { id: "q110", nome: "Mineiro e Tarantulika", nivelReq: "110+", minLevel: 110, xpBase: 3000000000, npc: "Caçador Owen" },
+            { id: "q108", nome: "Kakoa, Igolation e Xetan", nivelReq: "108+", minLevel: 108, xpBase: 2100000000, npc: "Caçador Owen" },
+            { id: "q105", nome: "Cavaleiro e Sacerdotisa Cinzas", nivelReq: "105+", minLevel: 105, xpBase: 1300000000, npc: "Caçador Owen" },
+            { id: "q103", nome: "Pike e Mecânico das Cinzas", nivelReq: "103+", minLevel: 103, xpBase: 1200000000, npc: "Caçador Owen" },
+            { id: "q100", nome: "Cavaleiro Sanguinário e Seto", nivelReq: "100+", minLevel: 100, xpBase: 1200000000, npc: "Caçador Owen" },
+            { id: "q96", nome: "Cão Infernal e Guardião Sombrio", nivelReq: "96+", minLevel: 96, xpBase: 1000000000, npc: "Caçador Owen" },
+            { id: "q91", nome: "Conjuradora e Tartaruga", nivelReq: "91+", minLevel: 91, xpBase: 500000000, npc: "Caçador Owen" },
+            { id: "q86", nome: "Máquina-D e Guardião", nivelReq: "86+", minLevel: 86, xpBase: 250000000, npc: "Caçador Owen" },
+            { id: "q80", nome: "Máquina Vampira", nivelReq: "80+", minLevel: 80, xpBase: 100000000, npc: "Caçador Owen" },
+            { id: "q70", nome: "Aranha Rainha", nivelReq: "70+", minLevel: 70, xpBase: 62500000, npc: "Caçador Owen" },
+            { id: "q61", nome: "Figon e Gigante de Pedra", nivelReq: "61+", minLevel: 61, xpBase: 25000000, npc: "Caçador Owen" },
+            { id: "q55", nome: "Golem de Areia e Carniceiro", nivelReq: "55+", minLevel: 55, xpBase: 12500000, npc: "Caçador Owen" },
+            { id: "q50", nome: "Duende Líder e Decapitador", nivelReq: "50+", minLevel: 50, xpBase: 6300000, npc: "Caçador Owen" },
+            { id: "q31", nome: "Arqueiro do Mal e Cripto", nivelReq: "31+", minLevel: 31, xpBase: 3800000, npc: "Caçador Owen" },
+
+            // JIN / SKADI
+            { id: "q16", nome: "Zeldi ou Tatu", nivelReq: "16+", minLevel: 16, xpBase: 957000, npc: "Jin / Skadi" },
+            { id: "q8", nome: "Coelhos ou Hopis", nivelReq: "8+", minLevel: 8, xpBase: 343000, npc: "Jin / Skadi" }
+        ];
+
+        /* =========================================
+           LÓGICA DA CALCULADORA
+           ========================================= */
+        const selectNivel = document.getElementById('nivelDesejado');
+        const divListaQuestsAline = document.getElementById('listaQuestsAline');
+        const divListaQuestsOutros = document.getElementById('listaQuestsOutros');
+
+        function mudarServidor() {
+            const serv = document.getElementById('servidorJogado').value;
+            levelCapAtual = configServidores[serv].cap;
+            multiplicadorAtual = configServidores[serv].multiplicadorXP;
+            
+            renderizarQuests();
+            atualizarStatusPersonagem();
+        }
+
+        function carregarOpcoesNivelIniciais() {
+            selectNivel.innerHTML = '';
+            for (let i = 2; i <= levelCapAtual; i++) {
+                let option = document.createElement('option');
+                option.value = i;
+                option.text = "Nível " + i;
+                // Deixa selecionado um nível intermediário caso exista no cap atual
+                if(i === 105 && levelCapAtual >= 105) option.selected = true; 
+                selectNivel.appendChild(option);
+            }
+            selectNivel.disabled = false;
+        }
+
+        function renderizarQuests() {
+            divListaQuestsAline.innerHTML = '';
+            divListaQuestsOutros.innerHTML = '';
+
+            questsDisponiveis.forEach(quest => {
+                // Filtra as quests para mostrar apenas as que estão dentro do Level Cap do servidor
+                if (quest.minLevel <= levelCapAtual) {
+                    const xpFormatada = quest.xpBase > 0 
+                        ? `+${quest.xpBase.toLocaleString('pt-BR')} XP` 
+                        : `Sem XP Direta`;
+                    
+                    const questHTML = `
+                        <div class="col-md-6">
+                            <div class="quest-box">
+                                <input class="quest-checkbox" type="checkbox" id="${quest.id}" value="${quest.xpBase}">
+                                <label class="quest-label" for="${quest.id}">
+                                    <div class="quest-marker"></div>
+                                    <div>
+                                        <span class="badge bg-dark border border-secondary badge-npc text-light mb-1">
+                                            <i class="bi bi-person-fill text-warning"></i> ${quest.npc}
+                                        </span><br>
+                                        <strong>${quest.nome}</strong><br>
+                                        <small class="text-white-50">Nível ${quest.nivelReq}</small><br>
+                                        <small class="text-warning fw-bold">${xpFormatada}</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    `;
+
+                    if (quest.npc === "Instrutora Aline") {
+                        divListaQuestsAline.innerHTML += questHTML;
+                    } else {
+                        divListaQuestsOutros.innerHTML += questHTML;
+                    }
+                }
+            });
+        }
+
+        function toggleOutrosQuests() {
+            const container = document.getElementById('containerOutros');
+            const isChecked = document.getElementById('toggleOutrosNPCs').checked;
+            
+            if (isChecked) {
+                container.classList.remove('d-none');
+            } else {
+                container.classList.add('d-none');
+                
+                const checkboxes = container.querySelectorAll('.quest-checkbox');
+                checkboxes.forEach(cb => cb.checked = false);
+            }
+        }
+
+        function atualizarStatusPersonagem() {
+            const xpDigitada = Number(document.getElementById('xpAtual').value);
+            const areaProgresso = document.getElementById('areaProgresso');
+            
+            if (!document.getElementById('xpAtual').value || xpDigitada < 0) {
+                areaProgresso.classList.add('d-none');
+                carregarOpcoesNivelIniciais();
+                return;
+            }
+
+            let nivelAtual = 1;
+            // A busca do nível começa a partir do Level Cap do servidor selecionado
+            for (let i = levelCapAtual; i >= 1; i--) {
+                if (xpDigitada >= xpPorNivel[i]) {
+                    nivelAtual = i;
+                    break;
+                }
+            }
+
+            areaProgresso.classList.remove('d-none');
+            document.getElementById('txtNivelAtual').innerText = "Nível Atual: " + nivelAtual;
+
+            if (nivelAtual < levelCapAtual) {
+                const xpBaseNivel = xpPorNivel[nivelAtual];
+                const xpProximoNivel = xpPorNivel[nivelAtual + 1];
+                const xpConquistadaNoNivel = xpDigitada - xpBaseNivel;
+                const xpTotalDoNivel = xpProximoNivel - xpBaseNivel;
+                
+                let porcentagem = (xpConquistadaNoNivel / xpTotalDoNivel) * 100;
+                if (porcentagem > 100) porcentagem = 100;
+                if (porcentagem < 0) porcentagem = 0;
+
+                const xpFaltanteParaUp = xpTotalDoNivel - xpConquistadaNoNivel;
+
+                document.getElementById('txtPorcentagem').innerText = porcentagem.toFixed(2).replace('.', ',') + "%";
+                document.getElementById('barraProgresso').style.width = porcentagem + "%";
+                document.getElementById('barraProgresso').innerText = porcentagem.toFixed(2).replace('.', ',') + "%";
+                document.getElementById('txtXpProximo').innerText = `Faltam ${Math.round(xpFaltanteParaUp).toLocaleString('pt-BR')} XP para o Nível ${nivelAtual + 1}.`;
+            } else {
+                // Caso a experiência alcance ou passe o Level Cap do servidor
+                document.getElementById('txtPorcentagem').innerText = "MÁXIMO";
+                document.getElementById('barraProgresso').style.width = "100%";
+                document.getElementById('barraProgresso').innerText = "100%";
+                document.getElementById('txtXpProximo').innerText = "Você alcançou o nível máximo do servidor!";
+            }
+
+            const objetivoSelecionadoAnterior = Number(selectNivel.value);
+            selectNivel.innerHTML = ''; 
+            
+            let adicionouNivelOpcao = false;
+            // Preenche os objetivos apenas até o Level Cap
+            for (let i = nivelAtual + 1; i <= levelCapAtual; i++) {
+                let option = document.createElement('option');
+                option.value = i;
+                option.text = "Nível " + i;
+                selectNivel.appendChild(option);
+                adicionouNivelOpcao = true;
+            }
+
+            if (!adicionouNivelOpcao) {
+                let option = document.createElement('option');
+                option.value = levelCapAtual;
+                option.text = "Nível Máximo Alcançado";
+                selectNivel.appendChild(option);
+                selectNivel.disabled = true;
+            } else {
+                selectNivel.disabled = false;
+                if (objetivoSelecionadoAnterior > nivelAtual && objetivoSelecionadoAnterior <= levelCapAtual) {
+                    selectNivel.value = objetivoSelecionadoAnterior;
+                } else {
+                    selectNivel.value = nivelAtual + 1;
+                }
+            }
+        }
+
+        function calcular() {
+            const xpAtual = Number(document.getElementById('xpAtual').value) || 0;
+            const nivelDesejado = Number(selectNivel.value);
+            
+            const xpGanho = Number(document.getElementById('xpGanho').value) || 0;
+            const xpIntervalo = Number(document.getElementById('xpIntervalo').value);
+            const tempoJogo = Number(document.getElementById('tempoJogo').value) || 0;
+            const frequenciaJogo = document.getElementById('frequenciaJogo').value;
+            
+            const freqQuests = Number(document.getElementById('frequenciaQuests').value);
+            const itemPremium = document.getElementById('itemPremium').checked;
+            
+            const xpNecessaria = xpPorNivel[nivelDesejado];
+            const xpFaltante = xpNecessaria - xpAtual;
+
+            if (xpFaltante <= 0) {
+                mostrarResultado(0, 0, "Alvo Alcançado!");
+                return;
+            }
+
+            const xpPorHora = xpGanho * (60 / xpIntervalo);
+            let horasPorDia = 0;
+            
+            if (frequenciaJogo === 'dia') horasPorDia = tempoJogo;
+            else if (frequenciaJogo === 'semana') horasPorDia = tempoJogo / 7;
+            else if (frequenciaJogo === 'mes') horasPorDia = tempoJogo / 30;
+
+            const xpCacaDiaria = xpPorHora * horasPorDia;
+
+            let xpTotalDasQuestsMarcadas = 0;
+            
+            const questsAline = document.getElementById('listaQuestsAline').querySelectorAll('.quest-checkbox:checked');
+            questsAline.forEach(box => {
+                xpTotalDasQuestsMarcadas += Number(box.value);
+            });
+
+            if (document.getElementById('toggleOutrosNPCs').checked) {
+                const questsOutros = document.getElementById('listaQuestsOutros').querySelectorAll('.quest-checkbox:checked');
+                questsOutros.forEach(box => {
+                    xpTotalDasQuestsMarcadas += Number(box.value);
+                });
+            }
+
+            if (itemPremium) {
+                xpTotalDasQuestsMarcadas = xpTotalDasQuestsMarcadas * 1.20;
+            }
+
+            // O multiplicador depende do servidor selecionado nas configurações
+            const xpQuestDiaria = (xpTotalDasQuestsMarcadas * multiplicadorAtual) * freqQuests;
+            
+            const xpTotalDiaria = xpCacaDiaria + xpQuestDiaria;
+
+            if (xpTotalDiaria <= 0) {
+                mostrarResultado(xpFaltante, 0, "Insira como ganhará XP (Caça ou Quests).");
+                return;
+            }
+
+            const diasNecessarios = xpFaltante / xpTotalDiaria;
+            
+            let textoTempo = "";
+            if (diasNecessarios < 1) {
+                const horas = Math.ceil(diasNecessarios * 24);
+                textoTempo = `${horas} Hora${horas > 1 ? 's' : ''}`;
+            } else if (diasNecessarios > 365) {
+                const anos = Math.floor(diasNecessarios / 365);
+                const meses = Math.ceil((diasNecessarios % 365) / 30);
+                textoTempo = `${anos} Ano${anos > 1 ? 's' : ''} e ${meses} Mês(es)`;
+            } else if (diasNecessarios > 30) {
+                const meses = Math.floor(diasNecessarios / 30);
+                const dias = Math.ceil(diasNecessarios % 30);
+                textoTempo = `${meses} Mês(es) e ${dias} Dia${dias > 1 ? 's' : ''}`;
+            } else {
+                const dias = Math.ceil(diasNecessarios);
+                textoTempo = `${dias} Dia${dias > 1 ? 's' : ''}`;
+            }
+
+            mostrarResultado(xpFaltante, xpTotalDiaria, textoTempo);
+        }
+
+        function mostrarResultado(xpFaltante, xpDiaria, textoTempo) {
+            const caixa = document.getElementById('resultado');
+            caixa.classList.remove('d-none');
+            
+            document.getElementById('resXpFaltante').innerText = Math.round(xpFaltante).toLocaleString('pt-BR');
+            document.getElementById('resXpDiaria').innerText = Math.round(xpDiaria).toLocaleString('pt-BR');
+            document.getElementById('resTempo').innerText = textoTempo;
+            
+            caixa.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Inicializa a aplicação com os dados do servidor que vem pré-selecionado (Awell/Migal/Midranda)
+        mudarServidor();
+
+    </script>
+</body>
+</html>

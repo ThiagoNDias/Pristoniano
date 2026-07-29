@@ -64,10 +64,15 @@
         [data-bs-theme="light"] .theme-toggle-btn { color: #4e342e; }
         [data-bs-theme="light"] .navbar-custom .nav-link { color: #4e342e !important; }
         [data-bs-theme="light"] .navbar-custom .nav-link:hover, [data-bs-theme="light"] .navbar-custom .nav-link.active { color: #261a18 !important; }
-        [data-bs-theme="dark"] .nav-link.text-warning { color: #ffc107 !important; }
-        [data-bs-theme="light"] .nav-link.text-warning { color: #a44537 !important; }
         [data-bs-theme="light"] footer { background-color: #d7ccc8; border-top: 1px solid #8b6b4a; color: #4e342e; }
         [data-bs-theme="light"] .social-icons a { color: #4e342e; }
+        
+        /* Ajuste da cor de Destaque (Amarelo -> Terracota) no Modo Claro */
+        [data-bs-theme="dark"] .nav-link.text-warning { color: #ffc107 !important; }
+        [data-bs-theme="light"] .nav-link.text-warning { color: #a44537 !important; }
+        [data-bs-theme="light"] .text-warning { color: #a44537 !important; }
+        [data-bs-theme="light"] .border-warning { border-color: #a44537 !important; }
+        [data-bs-theme="light"] .bg-warning { background-color: #e3cbb8 !important; color: #3e2723 !important; border-color: #8b6b4a !important; }
 
         /* --- ESTILOS DA CALCULADORA --- */
         .calc-container { width: 100%; max-width: 800px; padding: 30px; }
@@ -165,13 +170,26 @@
             text-shadow: 0 0 8px #ffc107;
         }
         
+        /* Ajustes das Quests para o Modo Claro */
         [data-bs-theme="light"] .quest-marker {
             background: rgba(255, 255, 255, 0.6);
             border-color: #8b6b4a;
             box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
         }
+        [data-bs-theme="light"] .quest-box:hover {
+            border-color: rgba(164, 69, 55, 0.5);
+        }
+        [data-bs-theme="light"] .quest-box:hover .quest-marker {
+            border-color: #a44537;
+            box-shadow: inset 0 0 5px rgba(164,69,55,0.2), 0 0 5px rgba(164,69,55,0.3);
+        }
         [data-bs-theme="light"] .quest-checkbox:checked + .quest-label .quest-marker {
-            background: rgba(255, 193, 7, 0.2);
+            background: rgba(164, 69, 55, 0.15);
+            border-color: #a44537;
+        }
+        [data-bs-theme="light"] .quest-checkbox:checked + .quest-label .quest-marker::after {
+            color: #a44537;
+            text-shadow: 0 0 4px rgba(164,69,55,0.5);
         }
         
         /* Ajuste do Badge de NPC no Modo Claro */
@@ -185,6 +203,12 @@
         .form-switch .form-check-input:checked {
             background-color: #ffc107;
             border-color: #ffc107;
+        }
+        
+        /* Ajuste do Toggle no Modo Claro */
+        [data-bs-theme="light"] .form-switch .form-check-input:checked {
+            background-color: #a44537;
+            border-color: #a44537;
         }
     </style>
 </head>
@@ -673,7 +697,6 @@
             }
         }
 
-        /* NOVA FUNÇÃO: Gera o texto do mapa caso o nível libere algum */
         function gerarTextoMapas(nivel) {
             const mapas = mapasPorNivel[nivel];
             if (!mapas) return ".";

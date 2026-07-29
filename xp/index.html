@@ -169,6 +169,10 @@
             font-size: 1.1rem;
             text-shadow: 0 0 8px #ffc107;
         }
+
+        /* Classe personalizada para o texto do nível da quest */
+        .quest-lvl-txt { color: rgba(255, 255, 255, 0.5); }
+        [data-bs-theme="light"] .quest-lvl-txt { color: #5d4037; font-weight: 500; }
         
         /* Ajustes das Quests para o Modo Claro */
         [data-bs-theme="light"] .quest-marker {
@@ -652,7 +656,7 @@
                                             <i class="bi bi-person-fill text-warning"></i> ${quest.npc}
                                         </span><br>
                                         <strong>${quest.nome}</strong><br>
-                                        <small class="text-white-50">Nível ${quest.nivelReq}</small><br>
+                                        <small class="quest-lvl-txt">Nível ${quest.nivelReq}</small><br>
                                         <small class="text-warning fw-bold">${xpFormatada}</small>
                                     </div>
                                 </label>

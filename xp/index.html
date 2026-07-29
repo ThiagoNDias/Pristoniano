@@ -258,7 +258,7 @@
                     <div class="col-md-12">
                         <label class="form-label">Experiência (XP) Total Atual</label>
                         <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" id="xpAtual" placeholder="Ex: 490.938.115" required oninput="formatarXP(this)">
+                            <input type="text" class="form-control" id="xpAtual" placeholder="Digite apenas números" required oninput="formatarXP(this)">
                             <select class="form-select bg-warning text-dark fw-bold border-warning" id="xpScale" style="max-width: 100px;" onchange="atualizarStatusPersonagem()">
                                 <option value="1" selected>XP</option>
                                 <option value="1000000">M</option>
@@ -302,7 +302,7 @@
                     <div class="col-md-6">
                         <label class="form-label">XP Conquistada</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="xpGanho" placeholder="Ex: 15.000.000" oninput="formatarXP(this)">
+                            <input type="text" class="form-control" id="xpGanho" placeholder="Digite apenas números" oninput="formatarXP(this)">
                             <select class="form-select bg-warning text-dark fw-bold border-warning" id="xpGanhoScale" style="max-width: 90px;">
                                 <option value="1" selected>XP</option>
                                 <option value="1000000">M</option>
@@ -314,7 +314,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Em quanto tempo?</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="tempoMedido" placeholder="Ex: 10" min="1">
+                            <input type="number" class="form-control" id="tempoMedido" placeholder="Digite apenas números" min="1">
                             <select class="form-select" id="unidadeTempoMedido" style="max-width: 120px;">
                                 <option value="minutos" selected>Minutos</option>
                                 <option value="horas">Horas</option>

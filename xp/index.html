@@ -294,29 +294,59 @@
                 <!-- ROTINA DE CAÇA -->
                 <h5 class="text-warning mt-4 border-bottom border-warning pb-2">3. Ritmo de Caça (Grind)</h5>
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">XP ganha caçando</label>
-                        <input type="number" class="form-control" id="xpGanho" placeholder="Ex: 5000000" min="0">
+                    
+                    <!-- Bloco 1: O Teste -->
+                    <div class="col-12 mt-2">
+                        <small class="text-info fw-bold"><i class="bi bi-stopwatch"></i> O que você mediu caçando:</small>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">A cada quanto tempo?</label>
-                        <select class="form-select" id="xpIntervalo">
-                            <option value="5">5 Minutos</option>
-                            <option value="10">10 Minutos</option>
-                            <option value="60">1 Hora</option>
-                        </select>
+                        <label class="form-label">XP Ganha</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="xpGanho" placeholder="Ex: 15.000.000" oninput="formatarXP(this)">
+                            <select class="form-select bg-warning text-dark fw-bold border-warning" id="xpGanhoScale" style="max-width: 90px;">
+                                <option value="1" selected>XP</option>
+                                <option value="1000000">M</option>
+                                <option value="1000000000">B</option>
+                                <option value="1000000000000">Tri</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Tempo dedicado</label>
-                        <input type="number" class="form-control" id="tempoJogo" placeholder="Ex: 4" min="0" step="0.5">
+                        <label class="form-label">Em quanto tempo?</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="tempoMedido" placeholder="Ex: 10" min="1">
+                            <select class="form-select" id="unidadeTempoMedido" style="max-width: 120px;">
+                                <option value="minutos" selected>Minutos</option>
+                                <option value="horas">Horas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Bloco 2: A Rotina -->
+                    <div class="col-12 mt-4">
+                        <small class="text-info fw-bold"><i class="bi bi-calendar-check"></i> Quanto tempo você vai jogar:</small>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Frequência</label>
-                        <select class="form-select" id="frequenciaJogo">
-                            <option value="dia">Horas por Dia</option>
-                            <option value="semana">Horas por Semana</option>
-                            <option value="mes">Horas por Mês</option>
-                        </select>
+                        <label class="form-label">Duração da sessão</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="tempoSessao" placeholder="Ex: 2" min="0" step="0.5">
+                            <select class="form-select" id="unidadeTempoSessao" style="max-width: 120px;">
+                                <option value="minutos">Minutos</option>
+                                <option value="horas" selected>Horas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Quantas vezes?</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="frequenciaVezes" placeholder="Ex: 3" min="1">
+                            <span class="input-group-text bg-transparent text-secondary border-secondary">vezes por</span>
+                            <select class="form-select" id="frequenciaPeriodo">
+                                <option value="dia">Dia</option>
+                                <option value="semana" selected>Semana</option>
+                                <option value="mes">Mês</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -824,17 +854,30 @@
         }
 
         function calcular() {
-            const xpRaw = document.getElementById('xpAtual').value.replace(/\./g, '');
-            const xpScale = Number(document.getElementById('xpScale').value);
-            const xpAtual = xpRaw ? Number(xpRaw) * xpScale : 0;
+            // XP Atual
+            const xpAtualRaw = document.getElementById('xpAtual').value.replace(/\./g, '');
+            const xpAtualScale = Number(document.getElementById('xpScale').value);
+            const xpAtual = xpAtualRaw ? Number(xpAtualRaw) * xpAtualScale : 0;
             
             const nivelDesejado = Number(selectNivel.value);
             
-            const xpGanho = Number(document.getElementById('xpGanho').value) || 0;
-            const xpIntervalo = Number(document.getElementById('xpIntervalo').value);
-            const tempoJogo = Number(document.getElementById('tempoJogo').value) || 0;
-            const frequenciaJogo = document.getElementById('frequenciaJogo').value;
+            // Dados da Caça (Teste medido)
+            const xpGanhoRaw = document.getElementById('xpGanho').value.replace(/\./g, '');
+            const xpGanhoScale = Number(document.getElementById('xpGanhoScale').value);
+            const xpFezNoTeste = xpGanhoRaw ? Number(xpGanhoRaw) * xpGanhoScale : 0;
             
+            const tempoMedido = Number(document.getElementById('tempoMedido').value) || 1; 
+            const unidadeTempoMedido = document.getElementById('unidadeTempoMedido').value;
+            
+            // Dados da Rotina
+            const tempoSessao = Number(document.getElementById('tempoSessao').value) || 0;
+            const unidadeTempoSessao = document.getElementById('unidadeTempoSessao').value;
+            const horasPorSessao = unidadeTempoSessao === 'minutos' ? (tempoSessao / 60) : tempoSessao;
+            
+            const frequenciaVezes = Number(document.getElementById('frequenciaVezes').value) || 0;
+            const frequenciaPeriodo = document.getElementById('frequenciaPeriodo').value;
+            
+            // Outros Dados
             const freqQuests = Number(document.getElementById('frequenciaQuests').value);
             const itemPremium = document.getElementById('itemPremium').checked;
             
@@ -846,15 +889,29 @@
                 return;
             }
 
-            const xpPorHora = xpGanho * (60 / xpIntervalo);
+            // Descobre o ganho de XP por Hora
+            let xpPorHora = 0;
+            if (xpFezNoTeste > 0) {
+                if (unidadeTempoMedido === 'minutos') {
+                    xpPorHora = xpFezNoTeste * (60 / tempoMedido);
+                } else {
+                    xpPorHora = xpFezNoTeste / tempoMedido;
+                }
+            }
+
+            // Descobre as Horas Jogadas por Dia (Média)
             let horasPorDia = 0;
-            
-            if (frequenciaJogo === 'dia') horasPorDia = tempoJogo;
-            else if (frequenciaJogo === 'semana') horasPorDia = tempoJogo / 7;
-            else if (frequenciaJogo === 'mes') horasPorDia = tempoJogo / 30;
+            if (frequenciaPeriodo === 'dia') {
+                horasPorDia = horasPorSessao * frequenciaVezes;
+            } else if (frequenciaPeriodo === 'semana') {
+                horasPorDia = (horasPorSessao * frequenciaVezes) / 7;
+            } else if (frequenciaPeriodo === 'mes') {
+                horasPorDia = (horasPorSessao * frequenciaVezes) / 30;
+            }
 
             const xpCacaDiaria = xpPorHora * horasPorDia;
 
+            // Lógica das Quests
             let xpTotalDasQuestsMarcadas = 0;
             
             const questsAline = document.getElementById('listaQuestsAline').querySelectorAll('.quest-checkbox:checked');
@@ -877,7 +934,7 @@
             const xpTotalDiaria = xpCacaDiaria + xpQuestDiaria;
 
             if (xpTotalDiaria <= 0) {
-                mostrarResultado(xpFaltante, 0, "Insira como ganhará XP (Caça ou Quests).");
+                mostrarResultado(xpFaltante, 0, "Insira como ganhará XP (Caça ou Quests) e sua rotina.");
                 return;
             }
 
@@ -934,9 +991,13 @@
                 xpScale: document.getElementById('xpScale').value,
                 nivelDesejado: document.getElementById('nivelDesejado').value,
                 xpGanho: document.getElementById('xpGanho').value,
-                xpIntervalo: document.getElementById('xpIntervalo').value,
-                tempoJogo: document.getElementById('tempoJogo').value,
-                frequenciaJogo: document.getElementById('frequenciaJogo').value,
+                xpGanhoScale: document.getElementById('xpGanhoScale').value,
+                tempoMedido: document.getElementById('tempoMedido').value,
+                unidadeTempoMedido: document.getElementById('unidadeTempoMedido').value,
+                tempoSessao: document.getElementById('tempoSessao').value,
+                unidadeTempoSessao: document.getElementById('unidadeTempoSessao').value,
+                frequenciaVezes: document.getElementById('frequenciaVezes').value,
+                frequenciaPeriodo: document.getElementById('frequenciaPeriodo').value,
                 servidorJogado: document.getElementById('servidorJogado').value,
                 frequenciaQuests: document.getElementById('frequenciaQuests').value,
                 itemPremium: document.getElementById('itemPremium').checked,
@@ -953,20 +1014,18 @@
             if (dadosSalvos) {
                 const dados = JSON.parse(dadosSalvos);
                 
-                // 1. Servidor (recria as listas e caps do servidor salvo)
-                if (dados.servidorJogado) {
-                    document.getElementById('servidorJogado').value = dados.servidorJogado;
-                }
+                // Servidor
+                if (dados.servidorJogado) document.getElementById('servidorJogado').value = dados.servidorJogado;
                 mudarServidor(); 
                 
-                // 2. XP e Escala
+                // XP do Personagem
                 if (dados.xpAtual !== undefined) {
                     document.getElementById('xpAtual').value = dados.xpAtual;
                     if(dados.xpScale) document.getElementById('xpScale').value = dados.xpScale;
                     formatarXP(document.getElementById('xpAtual'));
                 }
                 
-                // 3. Nível Desejado (após a XP ter gerado as opções de nível)
+                // Nível Desejado
                 if (dados.nivelDesejado) {
                     const selectNivel = document.getElementById('nivelDesejado');
                     const optionExiste = Array.from(selectNivel.options).some(opt => opt.value === dados.nivelDesejado);
@@ -976,21 +1035,27 @@
                     }
                 }
                 
-                // 4. Outros Campos de Texto e Selects
+                // Dados da Caça
                 if (dados.xpGanho !== undefined) document.getElementById('xpGanho').value = dados.xpGanho;
-                if (dados.xpIntervalo) document.getElementById('xpIntervalo').value = dados.xpIntervalo;
-                if (dados.tempoJogo !== undefined) document.getElementById('tempoJogo').value = dados.tempoJogo;
-                if (dados.frequenciaJogo) document.getElementById('frequenciaJogo').value = dados.frequenciaJogo;
+                if (dados.xpGanhoScale) document.getElementById('xpGanhoScale').value = dados.xpGanhoScale;
+                if (dados.tempoMedido !== undefined) document.getElementById('tempoMedido').value = dados.tempoMedido;
+                if (dados.unidadeTempoMedido) document.getElementById('unidadeTempoMedido').value = dados.unidadeTempoMedido;
+                if (dados.tempoSessao !== undefined) document.getElementById('tempoSessao').value = dados.tempoSessao;
+                if (dados.unidadeTempoSessao) document.getElementById('unidadeTempoSessao').value = dados.unidadeTempoSessao;
+                if (dados.frequenciaVezes !== undefined) document.getElementById('frequenciaVezes').value = dados.frequenciaVezes;
+                if (dados.frequenciaPeriodo) document.getElementById('frequenciaPeriodo').value = dados.frequenciaPeriodo;
+                
+                // Dados Gerais
                 if (dados.frequenciaQuests) document.getElementById('frequenciaQuests').value = dados.frequenciaQuests;
                 if (dados.itemPremium !== undefined) document.getElementById('itemPremium').checked = dados.itemPremium;
                 
-                // 5. Toggle de Quests Extras
+                // Toggle de Quests Extras
                 if (dados.toggleOutrosNPCs !== undefined) {
                     document.getElementById('toggleOutrosNPCs').checked = dados.toggleOutrosNPCs;
                     toggleOutrosQuests();
                 }
                 
-                // 6. Checkboxes das Quests marcadas
+                // Checkboxes das Quests marcadas
                 if (dados.questsAline) {
                     dados.questsAline.forEach(id => {
                         const cb = document.getElementById(id);
@@ -1005,16 +1070,13 @@
                 }
                 
             } else {
-                // Caso não tenha nada salvo (primeiro acesso)
                 mudarServidor();
             }
         }
 
-        // Adiciona um "escutador" no formulário inteiro. Qualquer alteração feita vai salvar os dados automaticamente.
         document.getElementById('xpForm').addEventListener('input', salvarDados);
         document.getElementById('xpForm').addEventListener('change', salvarDados);
 
-        // Ao abrir a página, carrega os dados em vez de apenas chamar mudarServidor() vazio.
         carregarDados();
 
     </script>

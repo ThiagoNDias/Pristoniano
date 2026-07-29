@@ -924,7 +924,99 @@
             caixa.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        mudarServidor();
+        /* =========================================
+           LÓGICA DE SALVAR E CARREGAR DADOS NO NAVEGADOR
+           ========================================= */
+
+        function salvarDados() {
+            const dados = {
+                xpAtual: document.getElementById('xpAtual').value,
+                xpScale: document.getElementById('xpScale').value,
+                nivelDesejado: document.getElementById('nivelDesejado').value,
+                xpGanho: document.getElementById('xpGanho').value,
+                xpIntervalo: document.getElementById('xpIntervalo').value,
+                tempoJogo: document.getElementById('tempoJogo').value,
+                frequenciaJogo: document.getElementById('frequenciaJogo').value,
+                servidorJogado: document.getElementById('servidorJogado').value,
+                frequenciaQuests: document.getElementById('frequenciaQuests').value,
+                itemPremium: document.getElementById('itemPremium').checked,
+                toggleOutrosNPCs: document.getElementById('toggleOutrosNPCs').checked,
+                questsAline: Array.from(document.getElementById('listaQuestsAline').querySelectorAll('.quest-checkbox:checked')).map(cb => cb.id),
+                questsOutros: Array.from(document.getElementById('listaQuestsOutros').querySelectorAll('.quest-checkbox:checked')).map(cb => cb.id)
+            };
+            localStorage.setItem('pristoniano_xp_dados', JSON.stringify(dados));
+        }
+
+        function carregarDados() {
+            const dadosSalvos = localStorage.getItem('pristoniano_xp_dados');
+            
+            if (dadosSalvos) {
+                const dados = JSON.parse(dadosSalvos);
+                
+                // 1. Servidor (recria as listas e caps do servidor salvo)
+                if (dados.servidorJogado) {
+                    document.getElementById('servidorJogado').value = dados.servidorJogado;
+                }
+                mudarServidor(); 
+                
+                // 2. XP e Escala
+                if (dados.xpAtual !== undefined) {
+                    document.getElementById('xpAtual').value = dados.xpAtual;
+                    if(dados.xpScale) document.getElementById('xpScale').value = dados.xpScale;
+                    formatarXP(document.getElementById('xpAtual'));
+                }
+                
+                // 3. Nível Desejado (após a XP ter gerado as opções de nível)
+                if (dados.nivelDesejado) {
+                    const selectNivel = document.getElementById('nivelDesejado');
+                    const optionExiste = Array.from(selectNivel.options).some(opt => opt.value === dados.nivelDesejado);
+                    if (optionExiste) {
+                        selectNivel.value = dados.nivelDesejado;
+                        atualizarXpFaltanteObjetivo();
+                    }
+                }
+                
+                // 4. Outros Campos de Texto e Selects
+                if (dados.xpGanho !== undefined) document.getElementById('xpGanho').value = dados.xpGanho;
+                if (dados.xpIntervalo) document.getElementById('xpIntervalo').value = dados.xpIntervalo;
+                if (dados.tempoJogo !== undefined) document.getElementById('tempoJogo').value = dados.tempoJogo;
+                if (dados.frequenciaJogo) document.getElementById('frequenciaJogo').value = dados.frequenciaJogo;
+                if (dados.frequenciaQuests) document.getElementById('frequenciaQuests').value = dados.frequenciaQuests;
+                if (dados.itemPremium !== undefined) document.getElementById('itemPremium').checked = dados.itemPremium;
+                
+                // 5. Toggle de Quests Extras
+                if (dados.toggleOutrosNPCs !== undefined) {
+                    document.getElementById('toggleOutrosNPCs').checked = dados.toggleOutrosNPCs;
+                    toggleOutrosQuests();
+                }
+                
+                // 6. Checkboxes das Quests marcadas
+                if (dados.questsAline) {
+                    dados.questsAline.forEach(id => {
+                        const cb = document.getElementById(id);
+                        if (cb) cb.checked = true;
+                    });
+                }
+                if (dados.questsOutros) {
+                    dados.questsOutros.forEach(id => {
+                        const cb = document.getElementById(id);
+                        if (cb) cb.checked = true;
+                    });
+                }
+                
+            } else {
+                // Caso não tenha nada salvo (primeiro acesso)
+                mudarServidor();
+            }
+        }
+
+        // Adiciona um "escutador" no formulário inteiro. Qualquer alteração feita vai salvar os dados automaticamente.
+        document.getElementById('xpForm').addEventListener('input', salvarDados);
+        document.getElementById('xpForm').addEventListener('change', salvarDados);
+
+        // Ao abrir a página, carrega os dados em vez de apenas chamar mudarServidor() vazio.
+        carregarDados();
+
     </script>
 </body>
 </html>

@@ -887,14 +887,24 @@
             if (diasNecessarios < 1) {
                 const horas = Math.ceil(diasNecessarios * 24);
                 textoTempo = `${horas} Hora${horas > 1 ? 's' : ''}`;
-            } else if (diasNecessarios > 365) {
+            } else if (diasNecessarios >= 365) {
                 const anos = Math.floor(diasNecessarios / 365);
                 const meses = Math.ceil((diasNecessarios % 365) / 30);
-                textoTempo = `${anos} Ano${anos > 1 ? 's' : ''} e ${meses} Mês(es)`;
-            } else if (diasNecessarios > 30) {
+                
+                let partes = [];
+                if (anos > 0) partes.push(`${anos} Ano${anos > 1 ? 's' : ''}`);
+                if (meses > 0) partes.push(`${meses} ${meses > 1 ? 'Meses' : 'Mês'}`);
+                
+                textoTempo = partes.join(' e ');
+            } else if (diasNecessarios >= 30) {
                 const meses = Math.floor(diasNecessarios / 30);
                 const dias = Math.ceil(diasNecessarios % 30);
-                textoTempo = `${meses} Mês(es) e ${dias} Dia${dias > 1 ? 's' : ''}`;
+                
+                let partes = [];
+                if (meses > 0) partes.push(`${meses} ${meses > 1 ? 'Meses' : 'Mês'}`);
+                if (dias > 0) partes.push(`${dias} Dia${dias > 1 ? 's' : ''}`);
+                
+                textoTempo = partes.join(' e ');
             } else {
                 const dias = Math.ceil(diasNecessarios);
                 textoTempo = `${dias} Dia${dias > 1 ? 's' : ''}`;
